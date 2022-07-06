@@ -1,6 +1,6 @@
 NAME = JavaGames
 
-SRC = Cave.java Game.java GameMaster.java GuessTheNumber.java
+SRC = Cave.java Game.java GuessTheNumber.java
 
 UNITSRC = TestProj.java
 
@@ -11,7 +11,7 @@ COMP = javac
 all: $(NAME)
 
 $(NAME):
-	$(COMP) $(SRC)
+	$(COMP) $(SRC) GameMaster.java
 
 unit:
 	$(COMP) $(UNITJAR) $(SRC) $(UNITSRC)
