@@ -15,3 +15,9 @@ $(NAME):
 
 unit:
 	$(COMP) $(UNITJAR) $(SRC) $(UNITSRC)
+
+test: all
+	java GameMaster
+
+unittest: unit
+	java TestProj
