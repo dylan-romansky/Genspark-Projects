@@ -1,3 +1,5 @@
+import org.openqa.selenium.*;
+
 public class Hangman	{
 	private String _word;
 	private String[] _hanger;
@@ -35,7 +37,8 @@ public class Hangman	{
 	}
 
 	private String _getWord()	{
-		driver = new ChromeDriver();
+		ChromeOptions opt = new ChromeOptions("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
+		driver = new ChromeDriver(opt);
 		driver.get("https://randomwordgenerator.com/");
 		// //*[@id="result"]/li/text()
 		return "Stub";
