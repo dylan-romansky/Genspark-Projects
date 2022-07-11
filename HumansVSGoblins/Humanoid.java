@@ -18,9 +18,9 @@ public class Humanoid{
         coords = pos;
     }
     public void updateCoords()  { //StateController will perform the sanity checks to keep these in bounds
-        int odds = rand.nextInt() % 4;
+        int odds = Math.abs(rand.nextInt() % 5);
         if (odds == 0)  { //20% chance for a Humanoid to move. Human overrides this.
-            odds = rand.nextInt() % 3;
+            odds = Math.abs(rand.nextInt() % 4);
             switch (odds)   {
                 case 0:
                     coords.setX(coords.getX() - 1);
@@ -40,8 +40,8 @@ public class Humanoid{
     public void updateCoords(char dir);
     public int attack(Humanoid target)  {
         int targHealth = target.getHealth();
-        if (_rng.nextInt() % 19 != 0) { //global 5% chance to miss an attack
-            int damage = (_rng.nextInt() % wep.getMod()) + _attack;
+        if (Math.abs(_rng.nextInt()) % 20 != 0) { //global 5% chance to miss an attack
+            int damage = Math.abs(_rng.nextInt() % wep.getMod()) + _attack;
             targHealth -= damage;
             target.setHealth(targHealth);
         }

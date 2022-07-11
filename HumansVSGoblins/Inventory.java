@@ -4,7 +4,7 @@ public class Inventory {
 
     public void addLoot(Loot loot)  {
         gold += loot.gold;
-        inv += loot.items();
+        inv.add(loot.items());
     }
     int getGold()   {
         return gold;

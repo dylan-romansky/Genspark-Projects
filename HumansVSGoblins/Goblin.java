@@ -3,24 +3,24 @@ public class Goblin extends Humanoid    {
     }
     Goblin(Coordinates pos) {
         super(pos);
-        _health = 100;
-        _attack = (_rng.nextInt() % 6) + 9;
-        wep = new Weapon();
+        _health = 40;
+        _attack = Math.abs(_rng.nextInt() % 6) + 9;
+        wep = Weapon.createWeapon();
     }
     public String toString()   {
         return "G";
     }
     private HashMap<Items> _genLootSet()  {
         HashMap<Items> loot = new HashMap<>();
-        if (_rng.nextInt() % 4 == 0)
-            loot.add(wep);
+        if (Math.abs(_rng.nextInt() % 5) == 0)
+            loot.add(Weapon.CreateWeapon());
         HashMap<Items> consoom = new HashMap<>();
-        for (int i = _rng.nextInt() % 3; i > 0; i--)
-            consoom.add(new::Consumable);
+        for (int i = Math.abs(_rng.nextInt() % 4); i > 0; i--)
+            consoom.add(Consumable.MakeConsumable());
         return loot.add(consoom);
     }
     public Loot drops() {
-        loot = new Loot((_rng.nextInt() % 50) + 100);
+        loot = new Loot(Math.abs(_rng.nextInt() % 50)) + 100);
         loot.addItems(_genLootSet());
         return loot;
     }
