@@ -3,7 +3,7 @@ import org.junit.*;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class UnitTester extends Hangman {
     @Test
@@ -14,7 +14,7 @@ public class UnitTester extends Hangman {
             assertTrue(true);
         }
         catch (Exception e) {
-            assertTrue(false); //if we caught an exception we've failed
+            fail(); //if we caught an exception we've failed
         }
     }
 
@@ -23,15 +23,15 @@ public class UnitTester extends Hangman {
         System.out.println("Testing win conditions");
         for (int i = 0; i < 6; i++) {
             _setLimbscount(i);
-            assertTrue(checkVictory() == 0);
+            assertEquals(0, checkVictory());
         }
         for (int num : List.of(7, 12, 97476, -200, -1, -134683)) {
             _setLimbscount(num);
-            assertTrue(checkVictory() == 1);
+            assertEquals(1, checkVictory());
         }
         _setLimbscount(0);
         _setGuesses(_getWord());
-        assertTrue(checkVictory() == 2);
+        assertEquals(2, checkVictory());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class UnitTester extends Hangman {
             System.out.println(in);
               System.out.println("'");
             System.setIn(new ByteArrayInputStream(in.getBytes()));
-            assertTrue(_playGame(0) == 0);
+            assertEquals(0, _playGame(0));
             System.out.println("acquiring an incorrect letter");
             char c = 'A';
             while (_getWord().indexOf(c) >= 0)
@@ -67,11 +67,10 @@ public class UnitTester extends Hangman {
             System.out.println("'");
             _setGuesses(_getGuesses().replaceAll(".", "_"));
             System.setIn(new ByteArrayInputStream(in.getBytes()));
-            assertTrue(_playGame(0) == 1);
+            assertEquals(1, _playGame(0));
         }
         catch (Exception e) {
-            System.out.println(e.getCause());
-            assertTrue(false); //if we encounter an unhandled exception we fail
+            fail(); //if we encounter an unhandled exception we fail
         }
     }
 
