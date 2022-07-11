@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 public class UnitTester extends Hangman {
     @Test
-    void testWordGen()  {
+    public void testWordGen()  {
         System.out.println("Testing word generator");
         try {
             String word = _getWord(); //if we don't throw an exception here, we succeed
@@ -19,7 +19,7 @@ public class UnitTester extends Hangman {
     }
 
     @Test
-    void testWinCon() {
+    public void testWinCon() {
         System.out.println("Testing win conditions");
         for (int i = 0; i < 6; i++) {
             _setLimbscount(i);
@@ -35,38 +35,50 @@ public class UnitTester extends Hangman {
     }
 
     @Test
-    void testGameloop() {
+    public void testGameloop() {
         System.out.println("Testing game loop");
         try {
-            String in = _getWord().replaceAll(".", "$0\n");
+            System.out.println("acquiring solution");
+            String in = "";
             for (char c : _getWord().toCharArray()) {
-                in += c;
-                in += '\n';
+                if (in.indexOf(c) < 0) {
+                    in += c;
+                    in += '\n';
+                }
             }
             in += "1\n";
+            System.out.println("injecting to standard in:\n'");
+            System.out.println(in);
+              System.out.println("'");
             System.setIn(new ByteArrayInputStream(in.getBytes()));
             assertTrue(_playGame(0) == 0);
+            System.out.println("acquiring an incorrect letter");
             char c = 'A';
             while (_getWord().indexOf(c) >= 0)
                 c++;
             in = "";
-            for (int i = 0; i <= 6; i++) {
+            for (int i = 0; i < 6; i++) {
                 in += c;
                 in += '\n';
             }
             in += "2\n";
+            System.out.println("injecting incorrect solution:\n'");
+            System.out.println(in);
+            System.out.println("'");
+            _setGuesses(_getGuesses().replaceAll(".", "_"));
             System.setIn(new ByteArrayInputStream(in.getBytes()));
             assertTrue(_playGame(0) == 1);
         }
         catch (Exception e) {
+            System.out.println(e.getCause());
             assertTrue(false); //if we encounter an unhandled exception we fail
         }
     }
 
-//    public static void main(String[] args)  {
-//        UnitTester test = new UnitTester();
-//        test.testWordGen();
-//        test.testWinCon();
-//        test.testGameloop();
+    public static void main(String[] args)  {
+        UnitTester test = new UnitTester();
+        test.testWordGen();
+        test.testWinCon();
+        test.testGameloop();
     }
 }
