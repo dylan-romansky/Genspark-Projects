@@ -2,8 +2,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import javax.sound.midi.Soundbank;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -12,7 +10,7 @@ public class Hangman	{
 	private final String[] _hanger;
 	private String _guesses;
 	private int _limbsCount;
-	private String _dude = "O/|\\/\\";
+	private final String _dude = "O/|\\/\\";
 
 	public static void main(String[] args) {
 		int exit = 0;
@@ -21,8 +19,24 @@ public class Hangman	{
 			exit = mang._playGame(exit);
 		}
 	}
+
+	protected String _getWord()	{
+		return _word;
+	}
+	protected String _getGuesses()	{
+		return _guesses;
+	}
+	protected int _getLimbscount()	{
+		return _limbsCount;
+	}
+	protected void _setLimbscount(int newCount)	{
+		_limbsCount = newCount;
+	}
+	protected void _setGuesses(String newGuess)	{
+		_guesses = newGuess;
+	}
 	public Hangman()	{
-		_word = _getWord();
+		_word = _genWord();
 		_hanger = new String[3];
 		_hanger[0] = "+-+";
 		_hanger[1] = "|";
@@ -32,7 +46,7 @@ public class Hangman	{
 		for (int i = _word.length(); i > 0; i--)
 			_guesses += "_";
 	}
-	private int _playGame(int exit)	{
+	protected int _playGame(int exit)	{
 		Scanner input = new Scanner(System.in);
 		_printMan();
 		String c = "";
@@ -69,7 +83,7 @@ public class Hangman	{
 			switch (checkVictory()) {
 				case 1 -> {
 					System.out.println("Oops, out of guesses.");
-					System.out.println("Your word was: " + _word;
+					System.out.println("Your word was: " + _word);
 					exit = 1;
 				}
 				case 2 -> {
@@ -83,12 +97,12 @@ public class Hangman	{
 		return input.nextInt() - 1;
 	}
 
-	public int checkVictory() {
-		if (_limbsCount == 6)
+	protected int checkVictory() {
+		if (0 >_limbsCount || _limbsCount >= 6)
 			return 1;
 		if (Objects.equals(_word, _guesses))
 			return 2;
-		return 3;
+		return 0;
 	}
 
 	private void _printMan()	{
@@ -115,7 +129,7 @@ public class Hangman	{
 // The following was never about efficiency. It was always about finding a way to
 // write code that interacts with the web in a way that's braindead easy and gets
 // me the desired end result;
-	private String _getWord()	{
+	private String _genWord()	{
 //		return "stub".toUpperCase();
 		ChromeOptions opt = new ChromeOptions();
 		opt.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
