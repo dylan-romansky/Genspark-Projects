@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Goblin extends Humanoid    {
     Goblin()    { //state contoller should handle errored goblins
     }
@@ -10,17 +12,25 @@ public class Goblin extends Humanoid    {
     public String toString()   {
         return "G";
     }
-    private HashMap<Items> _genLootSet()  {
-        HashMap<Items> loot = new HashMap<>();
+    private Loot _genLootSet()  {
+        Loot loot = new Loot();
         if (Math.abs(_rng.nextInt() % 5) == 0)
-            loot.add(Weapon.CreateWeapon());
-        HashMap<Items> consoom = new HashMap<>();
-        for (int i = Math.abs(_rng.nextInt() % 4); i > 0; i--)
-            consoom.add(Consumable.MakeConsumable());
-        return loot.add(consoom);
+            loot.addWeapon(Weapon.createWeapon());
+        HashMap<Consumable, Integer> consoom = new HashMap<>();
+        for (int i = Math.abs(_rng.nextInt() % 4); i > 0; i--)  {
+            Consumable con = Consumable.makeConsumable();
+            Integer check = consoom.putIfAbsent(con, 1);
+            if (check != 0)
+                consoom.put(con, check + 1);
+        }
+        return loot;
     }
+
+    @Override
+    public void updateCoords(char dir)  {}
+
     public Loot drops() {
-        loot = new Loot(Math.abs(_rng.nextInt() % 50)) + 100);
+        Loot loot = new Loot(Math.abs(_rng.nextInt() % 50) + 100);
         loot.addItems(_genLootSet());
         return loot;
     }

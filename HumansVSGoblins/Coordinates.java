@@ -2,11 +2,11 @@ public class Coordinates    {
     private int _x;
     private int _y;
 
-    coordinates()   {
+    Coordinates()   {
         _x = 0;
         _y = 0;
     }
-    coordinates(int x, int y)   {
+    Coordinates(int x, int y)   {
         _x = x;
         _y = y;
     }
@@ -15,5 +15,11 @@ public class Coordinates    {
     }
     int getY()  {
         return _y;
+    }
+    void setX(int x)  {
+        _x = x;
+    }
+    void setY(int y)    {
+        _y = y;
     }
 }

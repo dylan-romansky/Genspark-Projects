@@ -1,26 +1,26 @@
 import java.util.Random;
 
-public class Humanoid{
-    private Coordinates coords;
-    private int _health;
-    private int _attack;
-    private Weapon wep;
-    private Random _rng = new Random(System.currentTimeMillis() / 1000L);
+public abstract class Humanoid{
+    protected Coordinates coords;
+    protected int _health;
+    protected int _attack;
+    protected Weapon wep;
+    protected Random _rng = new Random(System.currentTimeMillis() / 1000L);
 
 
     public Humanoid()  {
-        coords = new Coordinates;
+        coords = new Coordinates();
         _health = 0;
         _attack = 0;
         Weapon wep = null;
     }
-    public Humanoid(Coords pos)    {
+    public Humanoid(Coordinates pos)    {
         coords = pos;
     }
     public void updateCoords()  { //StateController will perform the sanity checks to keep these in bounds
-        int odds = Math.abs(rand.nextInt() % 5);
+        int odds = Math.abs(_rng.nextInt() % 5);
         if (odds == 0)  { //20% chance for a Humanoid to move. Human overrides this.
-            odds = Math.abs(rand.nextInt() % 4);
+            odds = Math.abs(_rng.nextInt() % 4);
             switch (odds)   {
                 case 0:
                     coords.setX(coords.getX() - 1);
@@ -37,7 +37,7 @@ public class Humanoid{
             }
         }
     }
-    public void updateCoords(char dir);
+    public abstract void updateCoords(char dir);
     public int attack(Humanoid target)  {
         int targHealth = target.getHealth();
         if (Math.abs(_rng.nextInt()) % 20 != 0) { //global 5% chance to miss an attack
@@ -47,7 +47,7 @@ public class Humanoid{
         }
         return targHealth; //so the state controller knows if it needs to remove an entity
     }
-    public String toString {
+    public String toString() {
         return "?";
     }
     public int getHealth()  {
@@ -66,7 +66,7 @@ public class Humanoid{
     public void setHealth(int health) {
         _health = health;
     }
-    public void setWep(newep) {
+    public void setWep(Weapon newep) {
         wep = newep;
     }
 }
