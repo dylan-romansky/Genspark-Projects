@@ -16,23 +16,29 @@ public class Human extends Humanoid {
         wep = new Sword();
         inventory = new Inventory();
     }
-    public void updateCoords(char dir)  {
+    public void updateCoords(char dir, int boundX, int boundY)  {
+        int x = 0;
+        int y = 0;
         switch(dir) { //state controller keeps this in bounds
             case 'w':
             case'W':
-                coords.setY(coords.getY() - 1);
+                y = coords.getY() - 1;
+                coords.setY(y >= 0 ? y : 0);
                 break;
             case 's':
             case'S':
-                coords.setY(coords.getY() + 1);
+                y = coords.getY() + 1;
+                coords.setY(y < boundY ? y : boundY - 1);
                 break;
             case 'a':
             case 'A':
-                coords.setX(coords.getX() - 1);
+                x = coords.getX() - 1;
+                coords.setX(x >= 0 ? x : 0);
                 break;
             case 'd':
             case 'D':
-                coords.setX(coords.getX() + 1);
+                x = coords.getX() + 1;
+                coords.setX(x < boundX ? x : boundX);
                 break;
         }
     }

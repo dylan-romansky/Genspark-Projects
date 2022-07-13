@@ -5,7 +5,6 @@ public abstract class Humanoid{
     protected int _health;
     protected int _attack;
     protected Weapon wep;
-    protected static Random _rng = new Random(System.currentTimeMillis());
     protected String name;
 
 
@@ -22,32 +21,38 @@ public abstract class Humanoid{
         coords = pos;
         name = na;
     }
-    public void updateCoords()  { //StateController will perform the sanity checks to keep these in bounds
-        int odds = Math.abs(_rng.nextInt() % 5);
+    public void updateCoords(int boundX, int boundY)  { //StateController will perform the sanity checks to keep these in bounds
+        int odds = StateController._rng.nextInt(0, 5);
         if (odds == 0)  { //20% chance for a Humanoid to move. Human overrides this.
-            odds = Math.abs(_rng.nextInt() % 4);
+            odds = StateController._rng.nextInt(0, 4);
+            int x = 0;
+            int y = 0;
             switch (odds)   {
                 case 0:
-                    coords.setX(coords.getX() - 1);
+                    x = coords.getX() - 1;
+                    coords.setX(x >= 0 ? x : 0);
                     break;
                 case 1:
-                    coords.setX(coords.getX() + 1);
+                    x = coords.getX() + 1;
+                    coords.setX(x < boundX ? x : boundX);
                     break;
                 case 2:
-                    coords.setY(coords.getY() - 1);
+                    y = coords.getY() - 1;
+                    coords.setY(y >= 0 ? y : 0);
                     break;
                 case 3:
-                    coords.setY(coords.getY() + 1);
+                    y = coords.getY() + 1;
+                    coords.setY(y < boundY ? y : boundY - 1);
                     break;
             }
         }
     }
-    public abstract void updateCoords(char dir);
+    public abstract void updateCoords(char dir, int boundX, int boundY);
     //make another one that takes a key press event
     public int attack(Humanoid target)  {
         int targHealth = target.getHealth();
-        if (Math.abs(_rng.nextInt()) % 20 != 0) { //global 5% chance to miss an attack
-            int damage = Math.abs(_rng.nextInt() % wep.getMod()) + _attack;
+        if (StateController._rng.nextInt(0, 20) != 0) { //global 5% chance to miss an attack
+            int damage = StateController._rng.nextInt(0, wep.getMod()) + _attack;
             targHealth -= damage;
             target.setHealth(targHealth);
         }

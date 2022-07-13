@@ -20,26 +20,26 @@ public class HumanoidTest   {
         assertEquals(0, grog.getCoords().toString().compareTo("5, 5"));
         System.out.println("Testing " + grog.getName() + "'s random movement");
         for (int i = 0; i < 40; i++) {
-            grog.updateCoords();
+            grog.updateCoords(10, 10);
             System.out.println(grog.getCoords().toString());
         }
         System.out.println("Did " + grog.getName() + " move? Due to the nature of random numbers this is impossible to set a 100% accurate check for\n");
         System.out.println("Testing " + greg.getName() + "'s movement. This is done internaly.");
-        greg.updateCoords('w');
+        greg.updateCoords('w', 10, 10);
         assertEquals(0, greg.getCoords().toString().compareTo("5, 4"));
-        greg.updateCoords('W');
+        greg.updateCoords('W', 10, 10);
         assertEquals(0, greg.getCoords().toString().compareTo("5, 3"));
-        greg.updateCoords('a');
+        greg.updateCoords('a', 10, 10);
         assertEquals(0, greg.getCoords().toString().compareTo("4, 3"));
-        greg.updateCoords('A');
+        greg.updateCoords('A', 10, 10);
         assertEquals(0, greg.getCoords().toString().compareTo("3, 3"));
-        greg.updateCoords('s');
+        greg.updateCoords('s', 10, 10);
         assertEquals(0, greg.getCoords().toString().compareTo("3, 4"));
-        greg.updateCoords('S');
+        greg.updateCoords('S', 10, 10);
         assertEquals(0, greg.getCoords().toString().compareTo("3, 5"));
-        greg.updateCoords('d');
+        greg.updateCoords('d', 10, 10);
         assertEquals(0, greg.getCoords().toString().compareTo("4, 5"));
-        greg.updateCoords('D');
+        greg.updateCoords('D', 10, 10);
         assertEquals(0, greg.getCoords().toString().compareTo("5, 5"));
         System.out.println(greg.getName() + "'s movement check passed");
     }
