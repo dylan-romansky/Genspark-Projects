@@ -1,48 +1,46 @@
 import java.security.KeyPair;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class Loot   {
     private int gold;
-    private HashMap<Consumable, Integer> items;
-    private HashMap<Weapon, Integer> wep;
+    private HashSet<Consumable> items;
+    private HashSet<Weapon> wep;
     Loot()  {
         gold = 0;
-        wep = new HashMap<>();
-        items = new HashMap<>();
+        wep = new HashSet<>();
+        items = new HashSet<>();
     }
     Loot(int g) {
         gold = g;
-        wep = new HashMap<>();
-        items = new HashMap<>();
+        wep = new HashSet<>();
+        items = new HashSet<>();
     }
     public void addWeapon(Weapon Wep)   {
-        Integer check = wep.putIfAbsent(Wep, 1);
-        if (check != null)
-            wep.put(Wep, check + 1);
+        wep.add(Wep);
     }
     //for testing these are fine but they should be using entries to guarantee no loot is lost
     public void addItems(Loot itemset){
-        items.putAll(itemset.getItems());
+        items.addAll(itemset.getItems());
     }
-    public void addItems(HashMap<Consumable, Integer> itemset)  {
-        items.putAll(itemset);
+    public void addItems(HashSet<Consumable> itemset)  {
+        items.addAll(itemset);
     }
     public int getGold(){
         return gold;
     }
-    HashMap<Consumable, Integer> getItems(){
+    HashSet<Consumable> getItems(){
         return items;
     }
-    public HashMap<Weapon, Integer> getWeapon()   {
+    public HashSet<Weapon> getWeapon()   {
         return wep;
     }
     public String toString()   {
         String totLoot = "";
-        System.out.println(items.entrySet());
-        for (Map.Entry ent : items.entrySet())
-            totLoot += "\n-" + ent.getKey() + ": " + ent.getValue();
-        return "looted:\n" + "-gold - " + gold + totLoot;
+        for (Object ent : items.toArray())
+            totLoot += "\n-" + ent.toString();
+        return "looted:\n" + gold + " gold" + totLoot;
     }
 }

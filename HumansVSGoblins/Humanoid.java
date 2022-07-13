@@ -6,6 +6,7 @@ public abstract class Humanoid{
     protected int _attack;
     protected Weapon wep;
     protected static Random _rng = new Random(System.currentTimeMillis());
+    protected String name;
 
 
     public Humanoid()  {
@@ -16,6 +17,10 @@ public abstract class Humanoid{
     }
     public Humanoid(Coordinates pos)    {
         coords = pos;
+    }
+    public Humanoid(Coordinates pos, String na) {
+        coords = pos;
+        name = na;
     }
     public void updateCoords()  { //StateController will perform the sanity checks to keep these in bounds
         int odds = Math.abs(_rng.nextInt() % 5);
@@ -63,6 +68,9 @@ public abstract class Humanoid{
 
     public Weapon getWep() {
         return wep;
+    }
+    public String getName()    {
+        return name;
     }
     public void setHealth(int health) {
         _health = health;

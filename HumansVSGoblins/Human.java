@@ -1,9 +1,16 @@
 public class Human extends Humanoid {
-    Inventory inventory;
+    private Inventory inventory;
     Human() {//state controller will handle an invalid human character
     }
     Human(Coordinates pos){
-        super(pos);
+        super(pos, "Greg");
+        _health = 100;
+        _attack = 10;
+        wep = new Sword();
+        inventory = new Inventory();
+    }
+    Human(Coordinates pos, String name) {
+        super(pos, name);
         _health = 100;
         _attack = 10;
         wep = new Sword();
@@ -29,7 +36,30 @@ public class Human extends Humanoid {
                 break;
         }
     }
+    public String setWeapon(Weapon newwep)   {
+        wep = newwep;
+        String out = newwep instanceof Fist ? name + " is fighting bare-handed" : name + " equipped a";
+        return out + (newwep instanceof Axe ? "n " + newwep.toString() : " " + newwep.toString());
+    }
+    public String useConsumable(Consumable item)  {
+        _health += item.getMod();
+        if (inventory.getItems().contains(item))
+            inventory.getItems().remove(item);
+        return name + " consumed a " + item.toString() + " healing " + item.getMod();
+    }
     public Inventory getInv(){
         return inventory;
+    }
+    public void addLoot(Loot loot)   {
+        inventory.addLoot(loot);
+    }
+    public void addLoot(Weapon loot)   {
+        inventory.addLoot(loot);
+    }
+    public void addLoot(Consumable loot)   {
+        inventory.addLoot(loot);
+    }
+    public void addLoot(int gold)   {
+        inventory.addLoot(gold);
     }
 }

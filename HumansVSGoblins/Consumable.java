@@ -21,6 +21,6 @@ public class Consumable {
         return dmgModifier;
     }
     public String toString()   {
-        return "consumable is consumed healing 0 damage";
+        return "Error: Consumable item of unknown type";
     }
 }

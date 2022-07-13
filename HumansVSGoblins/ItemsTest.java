@@ -43,4 +43,31 @@ public class ItemsTest  {
             fail();
         }
     }
+    @Test
+    public void consumableUse() {
+        Human greg = new Human(new Coordinates(5, 5), "Greg");
+        greg.setHealth(10);
+        assertEquals(10, greg.getHealth());
+        Consumable test = new LargePotion();
+        System.out.println("Testing consumable items\n");
+        System.out.println("Adding Large Potion to inventory\n");
+        greg.addLoot(test);
+        assertTrue(greg.getInv().getItems().contains(test));
+        System.out.println("Successfully added");
+        System.out.println(greg.useConsumable(test));
+        assertEquals(60, greg.getHealth());
+        assertFalse(greg.getInv().getItems().contains(test));
+        System.out.println("Successfully consumed");
+    }
+
+    @Test
+    public void weaponEquip()   {
+        Human greg = new Human(new Coordinates(5, 5), "Greg");
+        String success = greg.setWeapon(new Fist());
+        assertTrue(greg.getWep() instanceof Fist);
+        System.out.println(success);
+        Weapon wep = Weapon.createWeapon();
+        System.out.println(greg.setWeapon(wep));
+        System.out.println("Success");
+    }
 }

@@ -7,13 +7,16 @@ public class Weapon {
         dmgModifier = 0;
     }
     public static Weapon createWeapon(){
-        switch (Math.abs(rand.nextInt() % 3)) {
+        int weprand = Math.abs(rand.nextInt() % 3);
+        switch (weprand) {
             case 0:
                 return new Axe();
             case 1:
                 return new Sword();
             case 2:
                 return new Spear();
+            default:
+                System.out.println("uh oh we got a " + weprand);
         }
         return null;
     }
@@ -22,6 +25,6 @@ public class Weapon {
         return dmgModifier;
     }
     public String toString()    {
-        return "weapon";
+        return "Error: Weapon of unknown type";
     }
 }
