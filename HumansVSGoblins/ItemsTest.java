@@ -1,7 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
-class ItemsTest  {
+public class ItemsTest  {
     @Test
     public void weaponGen() {
         Sword sord = new Sword();
@@ -42,10 +42,5 @@ class ItemsTest  {
         catch (Exception e) {
             fail();
         }
-    }
-    public static void main(String[] args)  {
-        ItemsTest test = new ItemsTest();
-        test.weaponGen();
-        test.consumableGen();
     }
 }

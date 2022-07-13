@@ -22,4 +22,7 @@ public class Coordinates    {
     void setY(int y)    {
         _y = y;
     }
+    public String toString()    {
+        return _x + ", " + _y;
+    }
 }

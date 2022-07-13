@@ -17,12 +17,13 @@ public class Goblin extends Humanoid    {
         if (Math.abs(_rng.nextInt() % 5) == 0)
             loot.addWeapon(Weapon.createWeapon());
         HashMap<Consumable, Integer> consoom = new HashMap<>();
-        for (int i = Math.abs(_rng.nextInt() % 4); i > 0; i--)  {
+        for (int i = Math.abs(_rng.nextInt() % 5); i > 0; i--)  {
             Consumable con = Consumable.makeConsumable();
             Integer check = consoom.putIfAbsent(con, 1);
-            if (check != 0)
+            if (check != null)
                 consoom.put(con, check + 1);
         }
+        loot.addItems(consoom);
         return loot;
     }
 
@@ -30,6 +31,9 @@ public class Goblin extends Humanoid    {
     public void updateCoords(char dir)  {}
 
     public Loot drops() {
+        if (_health > 0)  {
+            return null;
+        }
         Loot loot = new Loot(Math.abs(_rng.nextInt() % 50) + 100);
         loot.addItems(_genLootSet());
         return loot;

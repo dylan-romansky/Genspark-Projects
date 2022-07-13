@@ -1,13 +1,13 @@
 import java.util.Random;
 
 public class Weapon {
+    static Random rand = new Random(System.currentTimeMillis());
     protected int dmgModifier;
     Weapon()    {
         dmgModifier = 0;
     }
     public static Weapon createWeapon(){
-        Random rand = new Random(System.currentTimeMillis() / 1000L);
-        switch (rand.nextInt() % 3) {
+        switch (Math.abs(rand.nextInt() % 3)) {
             case 0:
                 return new Axe();
             case 1:
@@ -22,6 +22,6 @@ public class Weapon {
         return dmgModifier;
     }
     public String toString()    {
-        return "swings its weapon";
+        return "weapon";
     }
 }

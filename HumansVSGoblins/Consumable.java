@@ -1,12 +1,12 @@
 import java.util.Random;
 
 public class Consumable {
-    private int dmgModifier;
+    static Random rand = new Random(System.currentTimeMillis());
+    protected int dmgModifier;
     Consumable(){
         dmgModifier = 0;
     }
     public static Consumable makeConsumable(){
-        Random rand = new Random(System.currentTimeMillis() / 1000L);
         switch (Math.abs(rand.nextInt() % 3)) {
             case 0:
                 return new SmallPotion();
@@ -16,6 +16,9 @@ public class Consumable {
                 return new LargePotion();
         }
         return null;
+    }
+    public int getMod() {
+        return dmgModifier;
     }
     public String toString()   {
         return "consumable is consumed healing 0 damage";

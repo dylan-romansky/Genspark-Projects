@@ -5,7 +5,7 @@ public abstract class Humanoid{
     protected int _health;
     protected int _attack;
     protected Weapon wep;
-    protected Random _rng = new Random(System.currentTimeMillis() / 1000L);
+    protected static Random _rng = new Random(System.currentTimeMillis());
 
 
     public Humanoid()  {
@@ -38,6 +38,7 @@ public abstract class Humanoid{
         }
     }
     public abstract void updateCoords(char dir);
+    //make another one that takes a key press event
     public int attack(Humanoid target)  {
         int targHealth = target.getHealth();
         if (Math.abs(_rng.nextInt()) % 20 != 0) { //global 5% chance to miss an attack

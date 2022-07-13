@@ -1,8 +1,8 @@
 public class Spear extends Weapon   {
-    spear() {
+    Spear() {
         dmgModifier = 8;
     }
-    String toString()   {
-        return "stabs with its spear";
+    public String toString()   {
+        return "Spear";
     }
 }

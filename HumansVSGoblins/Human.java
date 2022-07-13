@@ -11,21 +11,25 @@ public class Human extends Humanoid {
     }
     public void updateCoords(char dir)  {
         switch(dir) { //state controller keeps this in bounds
-            case /* up */:
+            case 'w':
+            case'W':
                 coords.setY(coords.getY() - 1);
                 break;
-            case /* down */:
+            case 's':
+            case'S':
                 coords.setY(coords.getY() + 1);
                 break;
-            case /* left */:
+            case 'a':
+            case 'A':
                 coords.setX(coords.getX() - 1);
                 break;
-            case /* right */:
+            case 'd':
+            case 'D':
                 coords.setX(coords.getX() + 1);
                 break;
         }
     }
-    public Inv getInv(){
+    public Inventory getInv(){
         return inventory;
     }
 }

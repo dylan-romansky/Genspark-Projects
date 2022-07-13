@@ -3,6 +3,6 @@ public class Axe extends Weapon {
         dmgModifier = 12;
     }
     public String toString()   {
-        return "swings its axe";
+        return "Axe";
     }
 }
