@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Terrain {
@@ -20,7 +21,7 @@ public class Terrain {
             _map += StateController._rng.nextInt(0, 20) == 0 ? "~" : "-";
         }
     }
-    public String populate(Humanoid[] populace) {
+    public String populate(ArrayList<Humanoid> populace) {
         StringBuilder populous = new StringBuilder(_map);
         for (Humanoid dude : populace)  {
             Coordinates loc = dude.getCoords();

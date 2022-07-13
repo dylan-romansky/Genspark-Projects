@@ -44,8 +44,8 @@ public class Human extends Humanoid {
     }
     public String setWeapon(Weapon newwep)   {
         wep = newwep;
-        String out = newwep instanceof Fist ? name + " is fighting bare-handed" : name + " equipped a";
-        return out + (newwep instanceof Axe ? "n " + newwep.toString() : " " + newwep.toString());
+        String out = newwep instanceof Fist ? name + " is fighting bare-handed" : name + " equipped a" + (newwep instanceof Axe ? "n Axe" : " " + newwep.toString());
+        return out;
     }
     public String useConsumable(Consumable item)  {
         _health += item.getMod();
