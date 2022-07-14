@@ -5,7 +5,7 @@ public class Goblin extends Humanoid    {
     Goblin()    { //state contoller should handle errored goblins
     }
     Goblin(Coordinates pos) {
-        super(pos);
+        super(pos, "Goblin");
         _health = 40;
         _attack = StateController._rng.nextInt(0, 6) + 9;
         wep = Weapon.createWeapon();

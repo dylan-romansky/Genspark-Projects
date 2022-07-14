@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -26,7 +25,7 @@ public class StateController {
         for (int i = 1; i <= 2; i++)    {
             int _x = x/2;
             int _y = y/2;
-            while (x == x/2 && y == y/2)    {
+            while (_x == x/2 && _y == y/2)    {
                 _x = _rng.nextInt(0, x);
                 _y = _rng.nextInt(0, y);
             }
@@ -47,10 +46,26 @@ public class StateController {
         }
         return gottem;
     }
-    Boolean healthCheck()   {
+    public Boolean healthCheck()   {
         ArrayList<Humanoid> filtered = hominids.stream().filter(x -> x.getHealth() > 0).collect(Collectors.toCollection(ArrayList<Humanoid>::new));
         if (!(filtered.get(0) instanceof Human))
             return false;
         return true;
+    }
+    public ArrayList<Humanoid>collisions()  {
+        Coordinates pos = hominids.get(0).getCoords();
+        ArrayList<Humanoid> found = new ArrayList<>();
+        for (int i = 1;  i < hominids.size(); i++)  {
+            Coordinates check = hominids.get(i).getCoords();
+            if (check.getY() == pos.getY() && check.getX() == pos.getX())
+                found.add(hominids.get(i));
+        }
+        return found;
+    }
+    public Terrain getTerra()   {
+        return terra;
+    }
+    public ArrayList<Humanoid> getPopulous()  {
+        return hominids;
     }
 }
