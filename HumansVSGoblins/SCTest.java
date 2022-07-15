@@ -16,7 +16,7 @@ public class SCTest {
             greg.updateCoords('s', status.getTerra().getX(), status.getTerra().getY());
         while (greg.getCoords().getY() > target.getY())
             greg.updateCoords('w', status.getTerra().getX(), status.getTerra().getY());
-        if (status.collisions().size() == 0)
+        if (status.fightCheck().size() == 0)
             assertTrue(false);
     }
 }

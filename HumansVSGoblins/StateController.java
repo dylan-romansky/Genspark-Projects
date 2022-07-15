@@ -6,9 +6,11 @@ public class StateController {
     public static Random _rng = new Random(System.currentTimeMillis());
     Terrain terra;
     ArrayList<Humanoid> hominids = new ArrayList<>(3);
+    Human fighter;
+    private Boolean fight = false;
     StateController()   {
         terra = new Terrain(20, 20);
-        hominids.add(new Human(new Coordinates(10, 10), "greg"));
+        fighter = new Human(new Coordinates(10, 10), "greg");
         for (int i = 1; i <= 2; i++) {
             int x = 10;
             int y = 10;
@@ -21,7 +23,7 @@ public class StateController {
     }
     StateController(int x, int y, String name)   {
         terra = new Terrain(x, y);
-        hominids.add(new Human(new Coordinates(x/2, y/2), name));
+        fighter = new Human(new Coordinates(x/2, y/2), name);
         for (int i = 1; i <= 2; i++)    {
             int _x = x/2;
             int _y = y/2;
@@ -37,7 +39,7 @@ public class StateController {
     }
     ArrayList<Humanoid> fightCheck(){
         ArrayList<Humanoid> gottem = new ArrayList<>();
-        Coordinates checkee = hominids.get(0).getCoords();
+        Coordinates checkee = fighter.getCoords();
         for (int i = 1; i < hominids.size(); i++)   {
             Humanoid guy = hominids.get(i);
             Coordinates checker = guy.getCoords();
@@ -48,24 +50,25 @@ public class StateController {
     }
     public Boolean healthCheck()   {
         ArrayList<Humanoid> filtered = hominids.stream().filter(x -> x.getHealth() > 0).collect(Collectors.toCollection(ArrayList<Humanoid>::new));
-        if (!(filtered.get(0) instanceof Human))
+        if (fighter.getHealth() == 0)
             return false;
         return true;
-    }
-    public ArrayList<Humanoid>collisions()  {
-        Coordinates pos = hominids.get(0).getCoords();
-        ArrayList<Humanoid> found = new ArrayList<>();
-        for (int i = 1;  i < hominids.size(); i++)  {
-            Coordinates check = hominids.get(i).getCoords();
-            if (check.getY() == pos.getY() && check.getX() == pos.getX())
-                found.add(hominids.get(i));
-        }
-        return found;
     }
     public Terrain getTerra()   {
         return terra;
     }
     public ArrayList<Humanoid> getPopulous()  {
         return hominids;
+    }
+    public void printMap(String map)    {
+        System.out.println("\033[H\033[2J");
+        System.out.flush();
+        System.out.println(map);
+    }
+    public void fightloop() {
+        return;
+    }
+    public void gameloop()  {
+        return;
     }
 }

@@ -4,7 +4,8 @@ public class Terrain {
     private final int _y;
     private final int _x;
     private String _map;
-    Terrain()   {
+    private String[] _fightmap;
+    Terrain()   { //make a sanity check so the map has to be larger than some amount
         _y = 20;
         _x = 20;
         fillMap();
@@ -13,6 +14,7 @@ public class Terrain {
         _y = y;
         _x = x;
         fillMap();
+        fightMenu();
     }
     private void fillMap()  {
         _map = "";
@@ -20,11 +22,28 @@ public class Terrain {
             _map += StateController._rng.nextInt(0, 20) == 0 ? "~" : "-";
         }
     }
+    private void fightMenu() { ////put on hold till I can get a loop together that supports movement
+        int lim = _y/2;
+        _fightmap = new String[lim];
+        String topbot = "+";
+        while (topbot.length() < lim - 1)
+            topbot += "-";
+        topbot += "+";
+        _fightmap[0] = topbot;
+        _fightmap[lim - 1] = topbot;
+        for (int y = 1; y < lim - 1; y++)    {
+            String line = "|";
+            while (line.length() < _x - 1)
+                line += " ";
+            line += " ";
+            _fightmap[lim - 1] = line;
+        }
+    }
     public String populate(ArrayList<Humanoid> populace) {
         StringBuilder populous = new StringBuilder(_map);
         for (Humanoid dude : populace)  {
             Coordinates loc = dude.getCoords();
-            System.out.println(dude.getName() + ": x = " + loc.getX() + " y = " + loc.getY());
+            //System.out.println(dude.getName() + ": x = " + loc.getX() + " y = " + loc.getY());
             populous.setCharAt((loc.getY() * _x) + loc.getX(), dude instanceof Human ? 'H' : 'G');
         }
         for (int i = populous.length(); i > 0; i--) {

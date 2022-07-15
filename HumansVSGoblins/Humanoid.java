@@ -79,6 +79,10 @@ public abstract class Humanoid{
     }
     public void setHealth(int health) {
         _health = health;
+        if (_health < 0)
+           _health = 0;
+        else if (_health > 100)
+            _health = 100;
     }
     public void setWep(Weapon newep) {
         wep = newep;
