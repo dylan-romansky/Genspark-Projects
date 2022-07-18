@@ -1,8 +1,10 @@
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class StateController {
+public class StateController implements KeyListener {
     public static Random _rng = new Random(System.currentTimeMillis());
     Terrain terra;
     ArrayList<Humanoid> hominids = new ArrayList<>(3);
@@ -70,5 +72,30 @@ public class StateController {
     }
     public void gameloop()  {
         return;
+    }
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
+        switch(key) {
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
+                fighter.updateCoords('w', terra.getX(), terra.getY());
+            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
+                fighter.updateCoords('s', terra.getX(), terra.getY());
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
+                fighter.updateCoords('a', terra.getX(), terra.getY());
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
+                fighter.updateCoords('d', terra.getX(), terra.getY());
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 }
