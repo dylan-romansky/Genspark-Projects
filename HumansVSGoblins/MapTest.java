@@ -1,6 +1,7 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+//DEPRECATED: please convert over to graphical printing
 public class MapTest {
     StateController status;
     @Test

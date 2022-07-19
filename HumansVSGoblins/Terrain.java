@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+//DEPRECATED: please convert to graphical printing
 public class Terrain {
     private final int _y;
     private final int _x;
