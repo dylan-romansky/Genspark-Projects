@@ -39,12 +39,14 @@ public class Terrain {
             _fightmap[lim - 1] = line;
         }
     }
-    public String populate(ArrayList<Humanoid> populace) {
+    public String populate(Human fighter, ArrayList<Humanoid> populace) {
         StringBuilder populous = new StringBuilder(_map);
+        Coordinates loc = fighter.getCoords();
+        populous.setCharAt((loc.getY() * _x) + loc.getX(), 'H');
         for (Humanoid dude : populace)  {
-            Coordinates loc = dude.getCoords();
+            loc = dude.getCoords();
             //System.out.println(dude.getName() + ": x = " + loc.getX() + " y = " + loc.getY());
-            populous.setCharAt((loc.getY() * _x) + loc.getX(), dude instanceof Human ? 'H' : 'G');
+            populous.setCharAt((loc.getY() * _x) + loc.getX(), 'G');
         }
         for (int i = populous.length(); i > 0; i--) {
             if (i % _x == 0)    {

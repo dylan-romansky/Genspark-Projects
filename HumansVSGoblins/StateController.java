@@ -1,15 +1,15 @@
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class StateController implements KeyListener {
+public class StateController {
     public static Random _rng = new Random(System.currentTimeMillis());
     Terrain terra;
+    Video panel;
     ArrayList<Humanoid> hominids = new ArrayList<>(3);
     Human fighter;
     private Boolean fight = false;
+    private boolean playing = true;
     StateController()   {
         terra = new Terrain(20, 20);
         fighter = new Human(new Coordinates(10, 10), "greg");
@@ -22,6 +22,7 @@ public class StateController implements KeyListener {
             }
             hominids.add(new Goblin(new Coordinates(x, y)));
         }
+        panel = new Video();
     }
     StateController(int x, int y, String name)   {
         terra = new Terrain(x, y);
@@ -35,9 +36,10 @@ public class StateController implements KeyListener {
             }
             hominids.add(new Goblin(new Coordinates(_x, _y)));
         }
+        panel = new Video();
     }
     void populateMap() {
-        terra.populate(hominids);
+        terra.populate(fighter, hominids);
     }
     ArrayList<Humanoid> fightCheck(){
         ArrayList<Humanoid> gottem = new ArrayList<>();
@@ -71,31 +73,21 @@ public class StateController implements KeyListener {
         return;
     }
     public void gameloop()  {
-        return;
-    }
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-    @Override
-    public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-        switch(key) {
-            case KeyEvent.VK_UP:
-            case KeyEvent.VK_W:
-                fighter.updateCoords('w', terra.getX(), terra.getY());
-            case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_S:
-                fighter.updateCoords('s', terra.getX(), terra.getY());
-            case KeyEvent.VK_LEFT:
-            case KeyEvent.VK_A:
-                fighter.updateCoords('a', terra.getX(), terra.getY());
-            case KeyEvent.VK_RIGHT:
-            case KeyEvent.VK_D:
-                fighter.updateCoords('d', terra.getX(), terra.getY());
+        while (playing == true) {
+            switch (panel.direct)  {
+                case UP:
+                    fighter.updateCoords('w', terra.getX(), terra.getY());
+                case DOWN:
+                    fighter.updateCoords('s', terra.getX(), terra.getY());
+                case LEFT:
+                    fighter.updateCoords('a', terra.getX(), terra.getY());
+                case RIGHT:
+                    fighter.updateCoords('d', terra.getX(), terra.getY());
+            }
+            for (Humanoid dude : hominids)
+                dude.updateCoords(terra.getX(), terra.getY());
+            printMap(terra.populate(fighter, hominids));
         }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
+        return;
     }
 }

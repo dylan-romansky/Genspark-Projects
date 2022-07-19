@@ -15,7 +15,7 @@ public class MapTest {
         System.out.println("\nDoes that one look right too?");
         assertTrue(linesTest(status));
         System.out.println("\nPopulation testing\n");
-        System.out.println(status.getTerra().populate(status.getPopulous()));
+        System.out.println(status.getTerra().populate(status.fighter, status.getPopulous()));
         System.out.println("\nDid that fill in? No one overlapping?");
     }
     public Boolean linesTest(StateController status)   {
