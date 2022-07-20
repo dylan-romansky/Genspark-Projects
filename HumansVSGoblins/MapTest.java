@@ -11,7 +11,7 @@ public class MapTest {
         System.out.println(status.getTerra().toString());
         System.out.println("\nDoes that look right?\n");
         assertTrue(linesTest(status));
-        status = new StateController(50, 10, "Greg");
+        status = new StateController(50, 10);
         System.out.println(status.getTerra().toString());
         System.out.println("\nDoes that one look right too?");
         assertTrue(linesTest(status));

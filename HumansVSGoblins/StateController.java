@@ -24,9 +24,10 @@ public class StateController {
         }
         panel = new Video();
     }
-    StateController(int x, int y, String name)   {
+    StateController(int x, int y)   {
         terra = new Terrain(x, y);
-        fighter = new Human(new Coordinates(x/2, y/2), name);
+        panel = new Video();
+        fighter = new Human(new Coordinates(x/2, y/2), panel.setup());
         for (int i = 1; i <= 2; i++)    {
             int _x = x/2;
             int _y = y/2;
@@ -36,7 +37,6 @@ public class StateController {
             }
             hominids.add(new Goblin(new Coordinates(_x, _y)));
         }
-        panel = new Video();
     }
     void populateMap() {
         terra.populate(fighter, hominids);

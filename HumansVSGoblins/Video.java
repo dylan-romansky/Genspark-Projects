@@ -88,4 +88,8 @@ public class Video implements KeyListener {
                 direct = directions.NONE;
         }
     }
+    public String setup()   {
+        //stubbed for now. will handle game menu before the game loop starts
+        return "Greg";
+    }
 }

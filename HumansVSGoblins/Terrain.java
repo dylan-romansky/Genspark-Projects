@@ -3,8 +3,7 @@ import java.util.ArrayList;
 public class Terrain {
     private final int _y;
     private final int _x;
-    private String _map;
-    private String[] _fightmap;
+    private ArrayList<tile> grid;
     Terrain()   { //make a sanity check so the map has to be larger than some amount
         _y = 20;
         _x = 20;
@@ -15,6 +14,14 @@ public class Terrain {
         _x = x;
         fillMap();
         fightMenu();
+    }
+    class tile  {
+        final int x;
+        final int y;
+        tile(int col, int row)  {
+            x = col;
+            y = row;
+        }
     }
     private void fillMap()  {
         _map = "";
