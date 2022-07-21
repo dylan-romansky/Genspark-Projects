@@ -1,23 +1,22 @@
 import org.junit.Test;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 //DEPRECATED: please convert over to graphical printing
 public class MapTest {
-    StateController status;
+    StateController status = new StateController(20, 20);
     @Test
-    public void printTest() {
-        System.out.println("Testing default configuration");
-        status = new StateController();
-        System.out.println(status.getTerra().toString());
-        System.out.println("\nDoes that look right?\n");
-        assertTrue(linesTest(status));
-        status = new StateController(50, 10);
-        System.out.println(status.getTerra().toString());
-        System.out.println("\nDoes that one look right too?");
-        assertTrue(linesTest(status));
-        System.out.println("\nPopulation testing\n");
-        System.out.println(status.getTerra().populate(status.fighter, status.getPopulous()));
-        System.out.println("\nDid that fill in? No one overlapping?");
+    public void gridTest() {
+        ArrayList<Terrain.tile> map = status.terra.getGrid();
+        for (Terrain.tile t : map) {
+            if (t.x == 1 && t.y != 1)
+                System.out.print("\n" + t.toString() + " ");
+            else
+                System.out.print(t.toString() + " ");
+        }
     }
     public Boolean linesTest(StateController status)   {
         int y = status.getTerra().getY();

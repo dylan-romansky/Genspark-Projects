@@ -11,7 +11,6 @@ public class StateController {
     private Boolean fight = false;
     private boolean playing = true;
     StateController()   {
-        terra = new Terrain(20, 20);
         fighter = new Human(new Coordinates(10, 10), "greg");
         for (int i = 1; i <= 2; i++) {
             int x = 10;
@@ -23,10 +22,11 @@ public class StateController {
             hominids.add(new Goblin(new Coordinates(x, y)));
         }
         panel = new Video();
+        terra = new Terrain(20, 20, panel);
     }
     StateController(int x, int y)   {
-        terra = new Terrain(x, y);
         panel = new Video();
+        terra = new Terrain(x, y, panel);
         fighter = new Human(new Coordinates(x/2, y/2), panel.setup());
         for (int i = 1; i <= 2; i++)    {
             int _x = x/2;
@@ -86,7 +86,6 @@ public class StateController {
             }
             for (Humanoid dude : hominids)
                 dude.updateCoords(terra.getX(), terra.getY());
-            printMap(terra.populate(fighter, hominids));
         }
         return;
     }

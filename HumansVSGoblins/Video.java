@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class Video implements KeyListener {
     enum directions { NONE, UP, DOWN, LEFT, RIGHT }
@@ -20,8 +21,8 @@ public class Video implements KeyListener {
         final int Tsize = 48;
         final int col = 20;
         final int row = 20;
-        final int dimX = col * Tsize;
-        final int dimY = row * Tsize;
+        final int dimX = col * (Tsize + 2);
+        final int dimY = row * (Tsize + 2);
 
         MyGrid()    {
             setPreferredSize(new Dimension(dimX, dimY));
@@ -45,7 +46,8 @@ public class Video implements KeyListener {
     void makeVis()  {
         screen.setVisible(true);
     }
-
+    void fillMap(ArrayList<Terrain.tile> grid) {}
+    void place(Humanoid hugh)   {}
     @Override
     public void keyTyped(KeyEvent e) {
     }
