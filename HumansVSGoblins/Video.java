@@ -4,49 +4,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Video implements KeyListener {
+public class Video extends JPanel implements KeyListener {
     enum directions { NONE, UP, DOWN, LEFT, RIGHT }
-    JFrame screen;
     public directions direct = directions.NONE;
     Boolean quit = false;
+    int FPS = 60;
+    ArrayList<Terrain.tile> grid;
     Video()  {
-        screen = new JFrame("HvG");
-        screen.addKeyListener(this);
-        screen.setLayout(new GridBagLayout());
-        screen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        screen.setSize(200, 200);
-        screen.pack();
+        setPreferredSize(new Dimension(1000, 1000));
+        setBackground(Color.black);
+        setDoubleBuffered(true);
+        addKeyListener(this);
+        setFocusable(true);
     }
-    private class MyGrid extends JPanel {
-        final int Tsize = 48;
-        final int col = 20;
-        final int row = 20;
-        final int dimX = col * (Tsize + 2);
-        final int dimY = row * (Tsize + 2);
-
-        MyGrid()    {
-            setPreferredSize(new Dimension(dimX, dimY));
-            setBackground(Color.black);
-            setDoubleBuffered(true);
-        }
-        void update() {
-        }
-        void paintComponent(Graphics g, Humanoid h, Coordinates c) {
-            super.paintComponent(g);
-            Graphics2D me = (Graphics2D) g;
-            switch (h)  {
-                case Human hu -> g.setColor(Color.blue);
-                case Goblin hu -> g.setColor(Color.red);
-                default -> g.setColor(Color.green);
-            }
-            me.fillRect(c.getX() * Tsize, c.getY() * Tsize, dimX, dimY);
-            me.dispose();
-        }
+    void fillMap(ArrayList<Terrain.tile> g) {
+        grid = g;
     }
-    void makeVis()  {
-        screen.setVisible(true);
-    }
-    void fillMap(ArrayList<Terrain.tile> grid) {}
     void place(Humanoid hugh)   {}
     @Override
     public void keyTyped(KeyEvent e) {
@@ -93,5 +66,12 @@ public class Video implements KeyListener {
     public String setup()   {
         //stubbed for now. will handle game menu before the game loop starts
         return "Greg";
+    }
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        for (Terrain.tile t : grid)
+            t.draw(g2);
+        g2.dispose();
     }
 }

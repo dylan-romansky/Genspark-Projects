@@ -4,12 +4,13 @@ import java.util.stream.Collectors;
 
 public class StateController {
     public static Random _rng = new Random(System.currentTimeMillis());
-    Terrain terra;
-    Video panel;
-    ArrayList<Humanoid> hominids = new ArrayList<>(3);
-    Human fighter;
+    public Terrain terra;
+    public Video panel;
+    private ArrayList<Humanoid> hominids = new ArrayList<>(3);
+    private Human fighter;
     private Boolean fight = false;
     private boolean playing = true;
+    private double refreshRate = 1000000000/60; //60 fps
     StateController()   {
         fighter = new Human(new Coordinates(10, 10), "greg");
         for (int i = 1; i <= 2; i++) {
@@ -39,7 +40,7 @@ public class StateController {
         }
     }
     void populateMap() {
-        terra.populate(fighter, hominids);
+        terra.update(fighter, hominids);
     }
     ArrayList<Humanoid> fightCheck(){
         ArrayList<Humanoid> gottem = new ArrayList<>();
@@ -74,6 +75,7 @@ public class StateController {
     }
     public void gameloop()  {
         while (playing == true) {
+            double nextUpdate = System.nanoTime() + refreshRate;
             switch (panel.direct)  {
                 case UP:
                     fighter.updateCoords('w', terra.getX(), terra.getY());
@@ -86,6 +88,10 @@ public class StateController {
             }
             for (Humanoid dude : hominids)
                 dude.updateCoords(terra.getX(), terra.getY());
+            terra.update(fighter, hominids);
+            try {
+             Thread.sleep((long) (nextUpdate - System.nanoTime()) / 1000000);  }
+            catch (Exception e) {}
         }
         return;
     }
