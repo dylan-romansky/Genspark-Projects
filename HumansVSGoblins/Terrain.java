@@ -9,15 +9,15 @@ public class Terrain {
     Terrain()   { //make a sanity check so the map has to be larger than some amount
         _y = 20;
         _x = 20;
-        fillMap();
         panel = new Video();
+        fillMap();
     }
     Terrain(int x, int y, Video pane)   {
         _y = y;
         _x = x;
+        panel = pane;
         fillMap();
 //        fightMenu();
-        panel = pane;
     }
     public class tile {
         final int x;
@@ -49,7 +49,7 @@ public class Terrain {
     private void fillMap()  { //unit test for this
         grid = new ArrayList<>();
         for (int i = 0; i < _x * _y; i++)
-            grid.add(new tile((i % _y) + 1, (i / _x)+ 1, panel));
+            grid.add(new tile((i % _y), (i / _x), panel));
         panel.setGrid(grid);
     }
 
