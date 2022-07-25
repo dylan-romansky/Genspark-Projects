@@ -2,34 +2,34 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class StateController {
+public class StateController implements Runnable {
     public static Random _rng = new Random(System.currentTimeMillis());
     public Terrain terra;
     public Video panel;
     private ArrayList<Humanoid> hominids = new ArrayList<>(3);
     private Human fighter;
     private Boolean fight = false;
-    private boolean playing = true;
+    Thread playing;
     private double refreshRate = 1000000000/60; //60 fps
     StateController()   {
-        fighter = new Human(new Coordinates(10, 10), "greg");
+        int xbound = 10;
+        int ybound = 10;
+        fighter = new Human(new Coordinates(xbound/2, ybound/2), "greg");
         for (int i = 1; i <= 2; i++) {
-            int x = 10;
-            int y = 10;
-            while (x == 10 && y == 10)  {
-                x = _rng.nextInt(0, 20);
-                y = _rng.nextInt(0, 20);
+            int x = xbound/2;
+            int y = ybound/2;
+            while (x == xbound/2 && y == ybound/2)  {
+                x = _rng.nextInt(0, xbound);
+                y = _rng.nextInt(0, ybound);
             }
             hominids.add(new Goblin(new Coordinates(x, y)));
         }
-        panel = new Video();
-        terra = new Terrain(20, 20, panel);
+        panel = new Video(xbound, ybound);
+        terra = new Terrain(xbound, ybound, panel);
     }
     StateController(int x, int y)   {
-        panel = new Video();
-        System.out.println(panel);
+        panel = new Video(x, y);
         terra = new Terrain(x, y, panel);
-        System.out.println(terra);
         fighter = new Human(new Coordinates(x/2, y/2), panel.setup());
         for (int i = 1; i <= 2; i++)    {
             int _x = x/2;
@@ -67,7 +67,7 @@ public class StateController {
     public ArrayList<Humanoid> getPopulous()  {
         return hominids;
     }
-    public void printMap(String map)    {
+    public void printMap(String map)    { //only useful in terminal
         System.out.println("\033[H\033[2J");
         System.out.flush();
         System.out.println(map);
@@ -75,22 +75,32 @@ public class StateController {
     public void fightloop() {
         return;
     }
-    public void gameloop()  {
-        while (playing == true) {
+    public void start() {
+        playing = new Thread(this);
+        playing.start();
+    }
+    @Override
+    public void run()  {
+        while (playing != null) {
             double nextUpdate = System.nanoTime() + refreshRate;
             switch (panel.direct)  {
                 case UP:
                     fighter.updateCoords('w', terra.getX(), terra.getY());
+                    break;
                 case DOWN:
                     fighter.updateCoords('s', terra.getX(), terra.getY());
+                    break;
                 case LEFT:
                     fighter.updateCoords('a', terra.getX(), terra.getY());
+                    break;
                 case RIGHT:
                     fighter.updateCoords('d', terra.getX(), terra.getY());
+                    break;
             }
             for (Humanoid dude : hominids)
                 dude.updateCoords(terra.getX(), terra.getY());
             terra.update(fighter, hominids);
+            terra.draw();
             try {
              Thread.sleep((long) (nextUpdate - System.nanoTime()) / 1000000);  }
             catch (Exception e) {}

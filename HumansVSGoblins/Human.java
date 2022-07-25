@@ -38,7 +38,7 @@ public class Human extends Humanoid {
             case 'd':
             case 'D':
                 x = coords.getX() + 1;
-                coords.setX(x < boundX ? x : boundX);
+                coords.setX(x < boundX ? x : boundX - 1);
                 break;
         }
     }

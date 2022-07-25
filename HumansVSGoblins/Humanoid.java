@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public abstract class Humanoid{
     protected Coordinates coords;
     protected int _health;
@@ -34,7 +32,7 @@ public abstract class Humanoid{
                     break;
                 case 1:
                     x = coords.getX() + 1;
-                    coords.setX(x < boundX ? x : boundX);
+                    coords.setX(x < boundX ? x : boundX - 1);
                     break;
                 case 2:
                     y = coords.getY() - 1;

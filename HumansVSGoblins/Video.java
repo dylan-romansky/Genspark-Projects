@@ -7,11 +7,10 @@ import java.util.ArrayList;
 public class Video extends JPanel implements KeyListener {
     enum directions { NONE, UP, DOWN, LEFT, RIGHT }
     public directions direct = directions.NONE;
-    Boolean quit = false;
     int FPS = 60;
     ArrayList<Terrain.tile> grid;
-    Video()  {
-        setPreferredSize(new Dimension(1000, 1000));
+    Video(int x, int y)  {
+        setPreferredSize(new Dimension(x * 50, y * 50));
         setBackground(Color.black);
         setDoubleBuffered(true);
         addKeyListener(this);
@@ -30,17 +29,19 @@ public class Video extends JPanel implements KeyListener {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
                 direct = directions.UP;
+                break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
                 direct = directions.DOWN;
+                break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
                 direct = directions.LEFT;
+                break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 direct = directions.RIGHT;
-            case KeyEvent.VK_ESCAPE:
-                quit = true;
+                break;
         }
     }
 
@@ -51,20 +52,27 @@ public class Video extends JPanel implements KeyListener {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
                 direct = directions.NONE;
+                break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
                 direct = directions.NONE;
+                break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
                 direct = directions.NONE;
+                break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 direct = directions.NONE;
+                break;
         }
     }
     public String setup()   {
         //stubbed for now. will handle game menu before the game loop starts
         return "Greg";
+    }
+    public void draw()  {
+        repaint();
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

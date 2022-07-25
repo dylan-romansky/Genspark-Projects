@@ -7,9 +7,9 @@ public class Terrain {
     private ArrayList<tile> grid;
     private Video panel;
     Terrain()   { //make a sanity check so the map has to be larger than some amount
-        _y = 20;
-        _x = 20;
-        panel = new Video();
+        _y = 10;
+        _x = 10;
+        panel = new Video(_x, _y);
         fillMap();
     }
     Terrain(int x, int y, Video pane)   {
@@ -36,9 +36,10 @@ public class Terrain {
         }
         public void draw(Graphics2D g2)  {
             switch (h)  {
+                case null -> g2.setColor(Color.green);
                 case Human ignored -> g2.setColor(Color.blue);
                 case Goblin ignored -> g2.setColor(Color.red);
-                case default -> g2.setColor(Color.green);
+                case default -> g2.setColor(Color.black);
             }
             g2.fillRect((x * 50) + 1, (y * 50) + 1, 48, 48);
         }
@@ -68,6 +69,7 @@ public class Terrain {
         }
     }
     public void draw()  {
+        panel.draw();
     }
     public String toString()    {
         String out = "";
