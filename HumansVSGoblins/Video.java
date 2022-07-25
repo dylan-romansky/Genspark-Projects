@@ -17,10 +17,9 @@ public class Video extends JPanel implements KeyListener {
         addKeyListener(this);
         setFocusable(true);
     }
-    void fillMap(ArrayList<Terrain.tile> g) {
+    void setGrid(ArrayList<Terrain.tile> g) {
         grid = g;
     }
-    void place(Humanoid hugh)   {}
     @Override
     public void keyTyped(KeyEvent e) {
     }

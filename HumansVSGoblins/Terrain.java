@@ -50,6 +50,7 @@ public class Terrain {
         grid = new ArrayList<>();
         for (int i = 0; i < _x * _y; i++)
             grid.add(new tile((i % _y) + 1, (i / _x)+ 1, panel));
+        panel.setGrid(grid);
     }
 
     public ArrayList<tile> getGrid() {

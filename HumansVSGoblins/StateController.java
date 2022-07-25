@@ -27,7 +27,9 @@ public class StateController {
     }
     StateController(int x, int y)   {
         panel = new Video();
+        System.out.println(panel);
         terra = new Terrain(x, y, panel);
+        System.out.println(terra);
         fighter = new Human(new Coordinates(x/2, y/2), panel.setup());
         for (int i = 1; i <= 2; i++)    {
             int _x = x/2;
