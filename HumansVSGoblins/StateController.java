@@ -2,20 +2,20 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class StateController implements Runnable {
+public class StateController {
     public static Random _rng = new Random(System.currentTimeMillis());
     public Terrain terra;
     public Video panel;
     private ArrayList<Humanoid> hominids = new ArrayList<>(3);
     private Human fighter;
     private Boolean fight = false;
-    Thread playing;
+    private boolean playing = true;
     private double refreshRate = 1000000000/60; //60 fps
     StateController()   {
         int xbound = 10;
         int ybound = 10;
-        fighter = new Human(new Coordinates(xbound/2, ybound/2), "greg");
-        for (int i = 1; i <= 2; i++) {
+        fighter = new Human(new Coordinates(xbound/2, ybound/2), "Greg");
+        for (int i = 0; i <= 2; i++) {
             int x = xbound/2;
             int y = ybound/2;
             while (x == xbound/2 && y == ybound/2)  {
@@ -31,7 +31,7 @@ public class StateController implements Runnable {
         panel = new Video(x, y);
         terra = new Terrain(x, y, panel);
         fighter = new Human(new Coordinates(x/2, y/2), panel.setup());
-        for (int i = 1; i <= 2; i++)    {
+        for (int i = 0; i <= 2; i++)    {
             int _x = x/2;
             int _y = y/2;
             while (_x == x/2 && _y == y/2)    {
@@ -47,7 +47,7 @@ public class StateController implements Runnable {
     ArrayList<Humanoid> fightCheck(){
         ArrayList<Humanoid> gottem = new ArrayList<>();
         Coordinates checkee = fighter.getCoords();
-        for (int i = 1; i < hominids.size(); i++)   {
+        for (int i = 0; i < hominids.size(); i++)   {
             Humanoid guy = hominids.get(i);
             Coordinates checker = guy.getCoords();
             if (checker.getX() == checkee.getX() && checker.getY() == checkee.getY())
@@ -72,39 +72,53 @@ public class StateController implements Runnable {
         System.out.flush();
         System.out.println(map);
     }
-    public void fightloop() {
-        return;
-    }
-    public void start() {
-        playing = new Thread(this);
-        playing.start();
-    }
-    @Override
-    public void run()  {
-        while (playing != null) {
+    public void fightloop(ArrayList<Humanoid> combatants) {
+        if (combatants.size() == 0)
+            return;
+        Video.directions last = Video.directions.NONE;
+        terra.update(fighter, hominids);
+        terra.draw();
+        panel.fightToggle();
+        panel.addCombatants(fighter, combatants);
+        while (combatants.size() > 0) {
             double nextUpdate = System.nanoTime() + refreshRate;
-            switch (panel.direct)  {
-                case UP:
-                    fighter.updateCoords('w', terra.getX(), terra.getY());
-                    break;
-                case DOWN:
-                    fighter.updateCoords('s', terra.getX(), terra.getY());
-                    break;
-                case LEFT:
-                    fighter.updateCoords('a', terra.getX(), terra.getY());
-                    break;
-                case RIGHT:
-                    fighter.updateCoords('d', terra.getX(), terra.getY());
-                    break;
+            if (last != panel.direct && panel.direct != Video.directions.NONE)
+                panel.updateFight();
+            last = panel.direct;
+            panel.draw();
+            if (fighter.getHealth() <= 0)
+                playing = false;
+            try {
+                Thread.sleep((long) (nextUpdate - System.nanoTime()) / 1000000);  }
+            catch (Exception e) {
+                System.out.println(e.getStackTrace());
             }
-            for (Humanoid dude : hominids)
-                dude.updateCoords(terra.getX(), terra.getY());
+        }
+        panel.fightToggle();
+    }
+    public void gameLoop()  {
+        Video.directions last = Video.directions.NONE;
+        while (playing) {
+            double nextUpdate = System.nanoTime() + refreshRate;
+            if (panel.direct != Video.directions.NONE && panel.direct != last) { //kinda hacky but it keeps the game responsive while also staying turn based
+                switch (panel.direct) {
+                    case UP -> fighter.updateCoords('w', terra.getX(), terra.getY());
+                    case DOWN -> fighter.updateCoords('s', terra.getX(), terra.getY());
+                    case LEFT -> fighter.updateCoords('a', terra.getX(), terra.getY());
+                    case RIGHT -> fighter.updateCoords('d', terra.getX(), terra.getY());
+                }
+                for (Humanoid dude : hominids)
+                    dude.updateCoords(terra.getX(), terra.getY());
+                fightloop(fightCheck());
+            }
+            last = panel.direct;
             terra.update(fighter, hominids);
             terra.draw();
             try {
              Thread.sleep((long) (nextUpdate - System.nanoTime()) / 1000000);  }
-            catch (Exception e) {}
+            catch (Exception e) {
+                System.out.println(e.getStackTrace());
+            }
         }
-        return;
     }
 }

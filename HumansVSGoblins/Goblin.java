@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class Goblin extends Humanoid    {
@@ -15,9 +14,6 @@ public class Goblin extends Humanoid    {
         _health = 40;
         _attack = StateController._rng.nextInt(0, 6) + 9;
         wep = Weapon.createWeapon();
-    }
-    public String toString()   {
-        return "G";
     }
     private Loot _genLootSet()  {
         Loot loot = new Loot();

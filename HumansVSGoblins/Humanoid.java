@@ -57,7 +57,7 @@ public abstract class Humanoid{
         return targHealth; //so the state controller knows if it needs to remove an entity
     }
     public String toString() {
-        return "?";
+        return name;
     }
     public int getHealth()  {
         return _health;

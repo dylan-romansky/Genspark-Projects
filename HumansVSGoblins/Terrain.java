@@ -39,7 +39,7 @@ public class Terrain {
                 case null -> g2.setColor(Color.green);
                 case Human ignored -> g2.setColor(Color.blue);
                 case Goblin ignored -> g2.setColor(Color.red);
-                case default -> g2.setColor(Color.black);
+                case default -> g2.setColor(Color.black); //if we ever see a black tile there's a problem
             }
             g2.fillRect((x * 50) + 1, (y * 50) + 1, 48, 48);
         }
