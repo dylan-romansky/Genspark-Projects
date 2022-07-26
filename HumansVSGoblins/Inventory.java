@@ -35,6 +35,12 @@ public class Inventory {
     public HashSet<Weapon> getWeapons() {
         return weapons;
     }
+    public String conString()   {
+        String itList = "";
+        for (Object ent : items.toArray())
+            itList += "\n " + ((Consumable) ent).toString();
+        return itList.substring(1, itList.length());
+    }
     public String toString()    {
         String wepList = "";
         String itList = "";
@@ -44,6 +50,7 @@ public class Inventory {
             itList += "\n " + ((Consumable) ent).toString();
         return "Gold: " + gold + "\nWeapons:" + wepList + "\nConsumables: " + itList;
     }
-    //getItem figure out a way to get the current inventory, access a specific one, etc
-
+    public int getConSize() {
+        return items.size();
+    }
 }

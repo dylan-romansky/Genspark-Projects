@@ -80,20 +80,24 @@ public class StateController {
         terra.draw();
         panel.fightToggle();
         panel.addCombatants(fighter, combatants);
+        hominids.removeAll(combatants);
         while (combatants.size() > 0) {
             double nextUpdate = System.nanoTime() + refreshRate;
-            if (last != panel.direct && panel.direct != Video.directions.NONE)
+            if ((last != panel.direct && panel.direct != Video.directions.NONE) || panel.click == true)
                 panel.updateFight();
             last = panel.direct;
             panel.draw();
             if (fighter.getHealth() <= 0)
                 playing = false;
             try {
-                Thread.sleep((long) (nextUpdate - System.nanoTime()) / 1000000);  }
+                long wait = (long) (nextUpdate - System.nanoTime()) / 1000000;
+                Thread.sleep(wait < 0 ? 0 : wait);  }
             catch (Exception e) {
-                System.out.println(e.getStackTrace());
+                e.printStackTrace();
             }
         }
+        fighter.addLoot(panel.lootPool());
+        panel.clearLoot();
         panel.fightToggle();
     }
     public void gameLoop()  {
@@ -115,9 +119,10 @@ public class StateController {
             terra.update(fighter, hominids);
             terra.draw();
             try {
-             Thread.sleep((long) (nextUpdate - System.nanoTime()) / 1000000);  }
+                long wait = (long) (nextUpdate - System.nanoTime()) / 1000000;
+                Thread.sleep(wait < 0 ? 0 : wait);  }
             catch (Exception e) {
-                System.out.println(e.getStackTrace());
+                e.printStackTrace();
             }
         }
     }

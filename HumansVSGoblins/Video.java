@@ -10,8 +10,9 @@ public class Video extends JPanel implements KeyListener {
     int FPS = 60;
     ArrayList<Terrain.tile> grid;
     private boolean fighting = false;
+    boolean click = false;
+    private boolean hold = false;
     public fightState fight;
-    private int state = 0;
     Video(int x, int y)  {
         setPreferredSize(new Dimension(x * 50, y * 50));
         setBackground(Color.black);
@@ -46,6 +47,9 @@ public class Video extends JPanel implements KeyListener {
             case KeyEvent.VK_D:
                 direct = directions.RIGHT;
                 break;
+            case KeyEvent.VK_ENTER:
+                click = true;
+                break;
         }
     }
 
@@ -68,6 +72,10 @@ public class Video extends JPanel implements KeyListener {
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 direct = directions.NONE;
+                break;
+            case KeyEvent.VK_ENTER:
+                click = false;
+                hold = false;
                 break;
         }
     }
@@ -92,9 +100,12 @@ public class Video extends JPanel implements KeyListener {
         Human   fighter;
         int width;
         int height;
+        int state = 0;
         String[] menuOpts = {"Attack", "Inventory"};
         int selOpt = 0;
         int choGob = 0;
+        int chosIt = 0;
+        Loot lootPool;
         fightState(int x, int y)    {
             width = x;
             height = y;
@@ -115,6 +126,20 @@ public class Video extends JPanel implements KeyListener {
                 g2.drawString(dude.toString() + " " + dude.getHealth(), xpos, ypos);
                 ypos += 50;
             }
+            switch (state) {
+                case 0:
+                    break;
+                case 1:
+                    g2.drawLine(xpos, height + 52 + (50 * choGob), getFontMetrics(getFont()).stringWidth("Goblin"), height + 2 + (50 * choGob));
+                    break;
+                case 2:
+                    drawInv(g2);
+                    break;
+            }
+        }
+        public void drawInv(Graphics2D g2){
+            g2.fillRect(width/3, 25, width/3, height-25);
+            g2.drawString(fighter.getInv().conString(), width/3, 50);
         }
         public void addCombatants(Human hu, ArrayList<Humanoid> co) {
             fighter = hu;
@@ -125,7 +150,7 @@ public class Video extends JPanel implements KeyListener {
         fight.addCombatants(hu, co);
     }
     public void updateFight()   {
-        switch (state) {
+        switch (fight.state) {
             case 0:
                 menuControl();
                 break;
@@ -139,6 +164,11 @@ public class Video extends JPanel implements KeyListener {
     }
 
     private void menuControl()  {
+        System.out.println(click + " && " + !hold);
+        if (click && !hold) {
+            fight.state += 1 + fight.selOpt;
+            hold = true;
+        }
         switch (direct) {
             case UP:
             case RIGHT:
@@ -154,10 +184,65 @@ public class Video extends JPanel implements KeyListener {
                 break;
         }
     }
+    public void chooseTarget()  {
+        System.out.println(click + " && " + !hold);
+        if (click && !hold) {
+            fight.state = 0;
+            Humanoid targ = fight.combatants.get(fight.choGob);
+            fight.fighter.attack(targ);
+            if (targ.getHealth() <= 0) {
+                fight.lootPool.addItems(((Goblin) targ).drops());
+                fight.combatants.remove(targ);
+            }
+            for (Humanoid combatant : fight.combatants) {
+                combatant.attack(fight.fighter);
+            }
+            hold = true;
+        }
+        switch (direct) {
+            case UP:
+            case RIGHT:
+                fight.choGob += 1;
+                if (fight.choGob >= fight.combatants.size())
+                    fight.choGob = 0;
+                break;
+            case DOWN:
+            case LEFT:
+                fight.choGob -= 1;
+                if (fight.choGob < 0)
+                    fight.choGob = fight.combatants.size() - 1;
+                break;
+        }
+    }
+    public void chooseItem()    {
+        System.out.println(click + " && " + !hold);
+        if (click && !hold) {
+            fight.state = 0;
+            fight.fighter.useConsumable(fight.chosIt);
+            hold = true;
+        }
+        switch (direct) {
+            case UP:
+            case RIGHT:
+                fight.chosIt += 1;
+                if (fight.chosIt >= fight.fighter.getInv().getConSize())
+                    fight.chosIt = 0;
+                break;
+            case DOWN:
+            case LEFT:
+                fight.chosIt -= 1;
+                if (fight.chosIt < 0)
+                    fight.chosIt = fight.fighter.getInv().getConSize() - 1;
+                break;
+        }
+    }
     public void fightToggle()    {
         fighting = !fighting;
     }
-    public void death() {
-        System.exit(0);
+    public Loot lootPool()  {
+        return fight.lootPool;
+    }
+    public void clearLoot() {
+        fight.lootPool.emptyPool();
     }
 }

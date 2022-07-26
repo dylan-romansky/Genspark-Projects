@@ -53,6 +53,11 @@ public class Human extends Humanoid {
             inventory.getItems().remove(item);
         return name + " consumed a " + item.toString() + " healing " + item.getMod();
     }
+    public void useConsumable(int index)    { //convert from hashset to arraylist
+        Consumable consoom;
+        consoom = (Consumable) inventory.getItems().toArray()[index];
+        useConsumable(consoom);
+    }
     public Inventory getInv(){
         return inventory;
     }

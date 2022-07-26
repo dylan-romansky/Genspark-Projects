@@ -1,8 +1,4 @@
-import java.security.KeyPair;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class Loot   {
     private int gold;
@@ -42,5 +38,10 @@ public class Loot   {
         for (Object ent : items.toArray())
             totLoot += "\n-" + ent.toString();
         return "looted:\n" + gold + " gold" + totLoot;
+    }
+    public void emptyPool() {
+        gold = 0;
+        wep.removeAll(wep);
+        items.removeAll(items);
     }
 }
