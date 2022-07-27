@@ -115,6 +115,8 @@ public class StateController {
                     dude.updateCoords(terra.getX(), terra.getY());
                 fightloop(fightCheck());
             }
+            if (_rng.nextInt() % 10 == 0 && hominids.size() < 5)
+                hominids.add(new Goblin());
             last = panel.direct;
             terra.update(fighter, hominids);
             terra.draw();

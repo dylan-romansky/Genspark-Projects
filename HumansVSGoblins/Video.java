@@ -109,6 +109,7 @@ public class Video extends JPanel implements KeyListener {
         fightState(int x, int y)    {
             width = x;
             height = y;
+            lootPool = new Loot(0);
         }
         public void draw(Graphics2D g2) {
             g2.setColor(Color.black);
@@ -138,8 +139,19 @@ public class Video extends JPanel implements KeyListener {
             }
         }
         public void drawInv(Graphics2D g2){
+            g2.setColor(Color.black);
             g2.fillRect(width/3, 25, width/3, height-25);
-            g2.drawString(fighter.getInv().conString(), width/3, 50);
+            g2.setColor(Color.white);
+            g2.drawRect(width/3, 25, width/3, height-25);
+            int x = (width / 3) + 25;
+            int y = 50;
+            String[] set = fighter.getInv().conString();
+            for (int i = 0; i < set.length; i ++) {
+                g2.drawString(set[i], x, y);
+                y += 20;
+            }
+            g2.drawString("close", x, y);
+            g2.drawLine(x, 52 + (20 * chosIt), getFontMetrics(getFont()).stringWidth(chosIt < set.length ? set[chosIt] : "close"), 52 + (20 * chosIt));
         }
         public void addCombatants(Human hu, ArrayList<Humanoid> co) {
             fighter = hu;
@@ -172,15 +184,15 @@ public class Video extends JPanel implements KeyListener {
         switch (direct) {
             case UP:
             case RIGHT:
-                fight.selOpt += 1;
-                if (fight.selOpt >= fight.menuOpts.length)
-                    fight.selOpt = 0;
-                break;
-            case DOWN:
-            case LEFT:
                 fight.selOpt -= 1;
                 if (fight.selOpt < 0)
                     fight.selOpt = fight.menuOpts.length - 1;
+                break;
+            case DOWN:
+            case LEFT:
+                fight.selOpt += 1;
+                if (fight.selOpt >= fight.menuOpts.length)
+                    fight.selOpt = 0;
                 break;
         }
     }
@@ -202,15 +214,15 @@ public class Video extends JPanel implements KeyListener {
         switch (direct) {
             case UP:
             case RIGHT:
-                fight.choGob += 1;
-                if (fight.choGob >= fight.combatants.size())
-                    fight.choGob = 0;
-                break;
-            case DOWN:
-            case LEFT:
                 fight.choGob -= 1;
                 if (fight.choGob < 0)
                     fight.choGob = fight.combatants.size() - 1;
+                break;
+            case DOWN:
+            case LEFT:
+                fight.choGob += 1;
+                if (fight.choGob >= fight.combatants.size())
+                    fight.choGob = 0;
                 break;
         }
     }
@@ -218,21 +230,22 @@ public class Video extends JPanel implements KeyListener {
         System.out.println(click + " && " + !hold);
         if (click && !hold) {
             fight.state = 0;
-            fight.fighter.useConsumable(fight.chosIt);
+            if (fight.chosIt < fight.fighter.getInv().getItems().size())
+                fight.fighter.useConsumable(fight.chosIt);
             hold = true;
         }
         switch (direct) {
             case UP:
             case RIGHT:
-                fight.chosIt += 1;
-                if (fight.chosIt >= fight.fighter.getInv().getConSize())
-                    fight.chosIt = 0;
+                fight.chosIt -= 1;
+                if (fight.chosIt < 0)
+                    fight.chosIt = fight.fighter.getInv().getConSize();
                 break;
             case DOWN:
             case LEFT:
-                fight.chosIt -= 1;
-                if (fight.chosIt < 0)
-                    fight.chosIt = fight.fighter.getInv().getConSize() - 1;
+                fight.chosIt += 1;
+                if (fight.chosIt > fight.fighter.getInv().getConSize())
+                    fight.chosIt = 0;
                 break;
         }
     }

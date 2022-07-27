@@ -1,13 +1,13 @@
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class Inventory {
     private int gold;
-    private HashSet<Consumable> items;
-    private HashSet<Weapon> weapons;
+    private ArrayList<Consumable> items;
+    private ArrayList<Weapon> weapons;
     Inventory() {
         gold = 0;
-        items = new HashSet<>();
-        weapons = new HashSet<>();
+        items = new ArrayList<>();
+        weapons = new ArrayList<>();
     }
 
     public void addLoot(Loot loot)  {
@@ -29,17 +29,18 @@ public class Inventory {
     int getGold()   {
         return gold;
     }
-    HashSet<Consumable> getItems()  {
+    ArrayList<Consumable> getItems()  {
         return items;
     }
-    public HashSet<Weapon> getWeapons() {
+    public ArrayList<Weapon> getWeapons() {
         return weapons;
     }
-    public String conString()   {
-        String itList = "";
-        for (Object ent : items.toArray())
-            itList += "\n " + ((Consumable) ent).toString();
-        return itList.substring(1, itList.length());
+    public String[] conString()   {
+        int len = items.size();
+        String[] itList = new String[len];
+        for (int i = 0; i < len; i++)
+            itList[i] = items.get(i).toString();
+        return itList;
     }
     public String toString()    {
         String wepList = "";
