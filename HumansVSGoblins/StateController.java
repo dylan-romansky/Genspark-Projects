@@ -157,6 +157,7 @@ public class StateController {
         int x = terra.getX();
         int y = terra.getY();;
         fightcoord.set(x/2, y/2);
+        fighter.setHealth(100);
         hominids.removeAll(hominids);
         for (int i = 0; i <= 2; i++)    {
             int _x = x/2;
