@@ -22,6 +22,10 @@ public class Coordinates    {
     void setY(int y)    {
         _y = y;
     }
+    void set(int x, int y)  {
+        _x = x;
+        _y = y;
+    }
     public String toString()    {
         return _x + ", " + _y;
     }

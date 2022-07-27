@@ -83,12 +83,15 @@ public class StateController {
         hominids.removeAll(combatants);
         while (combatants.size() > 0) {
             double nextUpdate = System.nanoTime() + refreshRate;
-            if ((last != panel.direct && panel.direct != Video.directions.NONE) || panel.click == true)
+            if ((last != panel.direct && panel.direct != Video.directions.NONE) || panel.click == true || panel.back == true)
                 panel.updateFight();
             last = panel.direct;
             panel.draw();
-            if (fighter.getHealth() <= 0)
+            if (fighter.getHealth() <= 0) {
+                panel.death();
                 playing = false;
+                return;
+            }
             try {
                 long wait = (long) (nextUpdate - System.nanoTime()) / 1000000;
                 Thread.sleep(wait < 0 ? 0 : wait);  }
@@ -134,6 +137,36 @@ public class StateController {
             catch (Exception e) {
                 e.printStackTrace();
             }
+            if (!playing) {
+                replayCheck();
+                System.out.println(playing);
+            }
         }
+    }
+    private void replayCheck()  {
+        System.out.println("so we here then?");
+        System.out.println(panel.click + " && " + panel.back);
+        while (panel.hold)
+            System.out.println("this sucks");
+        while (!panel.click && !panel.back)
+            System.out.println("waiting");
+        playing = panel.click;
+        if (!playing)
+            return;
+        Coordinates fightcoord = fighter.getCoords();
+        int x = terra.getX();
+        int y = terra.getY();;
+        fightcoord.set(x/2, y/2);
+        hominids.removeAll(hominids);
+        for (int i = 0; i <= 2; i++)    {
+            int _x = x/2;
+            int _y = y/2;
+            while (_x == x/2 && _y == y/2)    {
+                _x = _rng.nextInt(0, x);
+                _y = _rng.nextInt(0, y);
+            }
+            hominids.add(new Goblin(new Coordinates(_x, _y)));
+        }
+        panel.reset();
     }
 }

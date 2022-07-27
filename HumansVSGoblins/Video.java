@@ -12,8 +12,9 @@ public class Video extends JPanel implements KeyListener {
     private boolean fighting = false;
     boolean click = false;
     boolean back = false;
-    private boolean hold = false;
+    boolean hold = false;
     public fightState fight;
+    private boolean dead = false;
     Video(int x, int y)  {
         setPreferredSize(new Dimension(x * 50, y * 50));
         setBackground(Color.black);
@@ -94,6 +95,27 @@ public class Video extends JPanel implements KeyListener {
     public void draw()  {
         repaint();
     }
+    public void death() {
+        dead = true;
+        fightToggle();
+    }
+    public void reset() {
+        dead = false;
+        click = false;
+        back = false;
+        hold = false;
+        direct = directions.NONE;
+    }
+    public void death(Graphics2D g2)    {
+        g2.setColor(Color.black);
+        g2.fillRect(50, 50, fight.width - 100, fight.height - 50);
+        g2.setColor(Color.white);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRect(50, 50, fight.width - 100, fight.height - 50);
+        g2.drawString("Game Over", fight.width/2 - 5*6, fight.height/2);
+        g2.drawString("Play Again?", fight.width/2 - 5*6, fight.height/2 + 15);
+        g2.drawString("Enter: play      Esc: exit", fight.width/2 - 11*6, fight.height/2 + 40);
+    }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
@@ -101,6 +123,8 @@ public class Video extends JPanel implements KeyListener {
             t.draw(g2);
         if (fighting)
             fight.draw(g2);
+        if (dead)
+            death(g2);
         g2.dispose();
     }
     private class fightState {
@@ -110,7 +134,7 @@ public class Video extends JPanel implements KeyListener {
         int height;
         int state = 0;
         String[] menuOpts = {"Attack", "Inventory"};
-        int selOpt = 0;
+        int selOpt = 1;
         int choGob = 0;
         int chosIt = 0;
         Loot lootPool;
@@ -184,7 +208,6 @@ public class Video extends JPanel implements KeyListener {
     }
 
     private void menuControl()  {
-        System.out.println(click + " && " + !hold);
         if (click && !hold) {
             fight.state += 1 + fight.selOpt;
             hold = true;
@@ -205,7 +228,6 @@ public class Video extends JPanel implements KeyListener {
         }
     }
     public void chooseTarget()  {
-        System.out.println(click + " && " + !hold);
         if (click && !hold) {
             fight.state = 0;
             Humanoid targ = fight.combatants.get(fight.choGob);
@@ -217,6 +239,10 @@ public class Video extends JPanel implements KeyListener {
             for (Humanoid combatant : fight.combatants) {
                 combatant.attack(fight.fighter);
             }
+            hold = true;
+        }
+        if (back && !hold)  {
+            fight.state = 0;
             hold = true;
         }
         switch (direct) {
@@ -235,11 +261,15 @@ public class Video extends JPanel implements KeyListener {
         }
     }
     public void chooseItem()    {
-        System.out.println(click + " && " + !hold);
+        System.out.println(back + " && " + hold);
         if (click && !hold) {
             fight.state = 0;
             if (fight.chosIt < fight.fighter.getInv().getItems().size())
                 fight.fighter.useConsumable(fight.chosIt);
+            hold = true;
+        }
+        if (back && !hold)  {
+            fight.state = 0;
             hold = true;
         }
         switch (direct) {
