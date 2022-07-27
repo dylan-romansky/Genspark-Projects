@@ -11,6 +11,7 @@ public class Video extends JPanel implements KeyListener {
     ArrayList<Terrain.tile> grid;
     private boolean fighting = false;
     boolean click = false;
+    boolean back = false;
     private boolean hold = false;
     public fightState fight;
     Video(int x, int y)  {
@@ -50,6 +51,9 @@ public class Video extends JPanel implements KeyListener {
             case KeyEvent.VK_ENTER:
                 click = true;
                 break;
+            case KeyEvent.VK_ESCAPE:
+                back = true;
+                break;
         }
     }
 
@@ -75,6 +79,10 @@ public class Video extends JPanel implements KeyListener {
                 break;
             case KeyEvent.VK_ENTER:
                 click = false;
+                hold = false;
+                break;
+            case KeyEvent.VK_ESCAPE:
+                back = false;
                 hold = false;
                 break;
         }

@@ -115,8 +115,16 @@ public class StateController {
                     dude.updateCoords(terra.getX(), terra.getY());
                 fightloop(fightCheck());
             }
-            if (_rng.nextInt() % 10 == 0 && hominids.size() < 5)
-                hominids.add(new Goblin());
+            if (_rng.nextInt() % 10 == 0 && hominids.size() < 5) {
+                Coordinates playerPos = fighter.getCoords();
+                int x = playerPos.getX() / 2;
+                int y = playerPos.getY() / 2;
+                while (x == playerPos.getX() / 2 && y == playerPos.getY() / 2) {
+                    x = _rng.nextInt(0, terra.getX());
+                    y = _rng.nextInt(0, terra.getY());
+                }
+                hominids.add(new Goblin(new Coordinates(x, y)));
+            }
             last = panel.direct;
             terra.update(fighter, hominids);
             terra.draw();
