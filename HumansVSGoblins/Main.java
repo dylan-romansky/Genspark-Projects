@@ -11,5 +11,6 @@ public class Main   {
         screen.setLocationRelativeTo(null);
         screen.setVisible(true);
         SC.gameLoop();
+        screen.dispose();
     }
 }
