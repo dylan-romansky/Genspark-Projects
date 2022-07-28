@@ -244,14 +244,15 @@ public class Video extends JPanel implements KeyListener {
             g2.drawRect(x, 0, x, height);
             int y = 15;
             g2.drawString(fighter.toString(), 5, y);
-            g2.drawString("HP: " + fighter.getHealth(), 5, y + 10);
-            g2.drawString("Weapon: " + fighter.getWep() + ", +" + fighter.getWep().getMod() + " dmg", 5, y + 20);
-            g2.drawString("Attack: " + fighter.getAttack(), 5, y + 30);
-            g2.drawString("Dmg Total: " + (fighter.getAttack() + fighter.getWep().getMod()), 5, 40);
+            g2.drawString("HP: " + fighter.getHealth(), 5, y + 15);
+            g2.drawString("Weapon: " + fighter.getWep() + ", +" + fighter.getWep().getMod() + " dmg", 5, y + 30);
+            g2.drawString("Attack: " + fighter.getAttack(), 5, y + 45);
+            g2.drawString("Dmg Total: " + (fighter.getAttack() + fighter.getWep().getMod()), 5, y + 60);
             for (Weapon wep : fighter.getInv().getWeapons())    {
                 g2.drawString(wep.toString() + ", +" + wep.getMod() + " dmg", x + 5, y);
                 y += 10;
             }
+            g2.drawString("cancel", x + 5, y);
             g2.drawLine(x + 5,17 + (subOpt * 10), getFontMetrics(getFont()).stringWidth(mainOpt < opts.length ? opts[mainOpt] : "close"), 17 + (subOpt * 10));
             if (inspect)
                 inspection(g2);
@@ -266,14 +267,15 @@ public class Video extends JPanel implements KeyListener {
             g2.drawRect(x, 0, x, height);
             int y = 15;
             g2.drawString(fighter.toString(), 5, y);
-            g2.drawString("HP: " + fighter.getHealth(), 5, y + 10);
-            g2.drawString("Weapon: " + fighter.getWep() + ", +" + fighter.getWep().getMod() + " dmg", 5, y + 20);
-            g2.drawString("Attack: " + fighter.getAttack(), 5, y + 30);
-            g2.drawString("Dmg Total: " + (fighter.getAttack() + fighter.getWep().getMod()), 5, 40);
+            g2.drawString("HP: " + fighter.getHealth(), 5, y + 15);
+            g2.drawString("Weapon: " + fighter.getWep() + ", +" + fighter.getWep().getMod() + " dmg", 5, y + 30);
+            g2.drawString("Attack: " + fighter.getAttack(), 5, y + 45);
+            g2.drawString("Dmg Total: " + (fighter.getAttack() + fighter.getWep().getMod()), 5, y + 60);
             for (Consumable con : fighter.getInv().getItems())    {
                 g2.drawString(con.toString() + ", +" + con.getMod() + " hp", x + 5, y);
                 y += 10;
             }
+            g2.drawString("cancel", x + 5, y);
             g2.drawLine(x + 5,17 + (subOpt * 10), getFontMetrics(getFont()).stringWidth(mainOpt < opts.length ? opts[mainOpt] : "close"), 17 + (subOpt * 10));
             if (inspect)
                 inspection(g2);
@@ -286,14 +288,17 @@ public class Video extends JPanel implements KeyListener {
             g2.setStroke(new BasicStroke(5));
             g2.drawRect(0, 0, width, height);
             int y = 15;
-            g2.drawString(fighter.toString(), x, y);
-            g2.drawString("HP: " + fighter.getHealth(), x, y + 10);
-            g2.drawString("Weapon: " + fighter.getWep() + ", +" + fighter.getWep().getMod() + " dmg", x, y + 20);
-            g2.drawString("Attack: " + fighter.getAttack(), x, y + 30);
-            g2.drawString("Dmg Total: " + (fighter.getAttack() + fighter.getWep().getMod()), x, 40);
+            g2.drawString(fighter.toString(), 5, y);
+            g2.drawString("HP: " + fighter.getHealth(), 5, y + 15);
+            g2.drawString("Weapon: " + fighter.getWep() + ", +" + fighter.getWep().getMod() + " dmg", 5, y + 30);
+            g2.drawString("Attack: " + fighter.getAttack(), 5, y + 45);
+            g2.drawString("Dmg Total: " + (fighter.getAttack() + fighter.getWep().getMod()), 5, y + 60);
         }
         public void inspection(Graphics2D g2)   {
-            System.out.println("grrr");
+            if (subOpt == (state == 1 ? fighter.getInv().getWeapons().size() : fighter.getInv().getItems().size()) || state == 3) {
+                use();
+                return;
+            }
             int x = width/2 - 15;
             int y = height/2 - 15;
             g2.setColor(Color.black);
@@ -308,13 +313,10 @@ public class Video extends JPanel implements KeyListener {
                 g2.drawLine(x + 5, y + 20, getFontMetrics(getFont()).stringWidth("Cancel"), y + 20);
         }
         public void use()   {
-            System.out.println("arg");
             Inventory inv = fighter.getInv();
             int size = state == 1 ? inv.getWeapons().size() : inv.getItems().size();
-            if (subOpt == size) {
+            if (state == 3 || subOpt == size)
                 state = 0;
-                return;
-            }
             switch (menu.state) {
                 case 1:
                     if (subOpt == inv.getWeapons().size()) {
@@ -434,9 +436,6 @@ public class Video extends JPanel implements KeyListener {
         fight.lootPool.emptyPool();
     }
     void mainMenuControl()  {
-        System.out.println("wenk");
-        System.out.println("click " + click + " && " + hold);
-        System.out.println("inspect " + menu.inspect);
         if (click && !hold) {
             if (menu.inspect)
                 menu.use();
@@ -448,7 +447,6 @@ public class Video extends JPanel implements KeyListener {
                 menu.state += 1 + menu.mainOpt;
             hold = true;
         }
-        System.out.println("back " + back + " && " + hold);
         if (back && !hold)  {
             if (menu.inspect)
                 menu.inspect = false;
@@ -485,6 +483,5 @@ public class Video extends JPanel implements KeyListener {
                 }
                 break;
         }
-        System.out.println("state values: " + menu.state + " " + menu.mainOpt + " " + menu.subOpt);
     }
 }
