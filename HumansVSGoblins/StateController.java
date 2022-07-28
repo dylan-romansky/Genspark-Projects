@@ -109,8 +109,10 @@ public class StateController {
         Video.directions last = Video.directions.NONE;
         while (playing) {
             double nextUpdate = System.nanoTime() + refreshRate;
-            if (panel.click && !panel.hold && !panel.menuing)
+            if (panel.click && !panel.hold && !panel.menuing) {
+                panel.hold = true;
                 panel.menuing = true;
+            }
             else if (!panel.menuing)    {
                 if (panel.direct != Video.directions.NONE && panel.direct != last) { //kinda hacky but it keeps the game responsive while also staying turn based
                     switch (panel.direct) {

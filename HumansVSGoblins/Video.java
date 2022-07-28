@@ -235,10 +235,10 @@ public class Video extends JPanel implements KeyListener {
             g2.drawLine(x,17 + (mainOpt * 15), getFontMetrics(getFont()).stringWidth(mainOpt < opts.length ? opts[mainOpt] : "close"), 17 + (mainOpt * 15));
         }
         public void drawEquipMenu(Graphics2D g2)   {
-            System.out.println("uh");
             int x = width/2;
             g2.setColor(Color.black);
             g2.fillRect(0, 0, width, height);
+            g2.setColor(Color.white);
             g2.setStroke(new BasicStroke(5));
             g2.drawRect(0, 0, x, height);
             g2.drawRect(x, 0, x, height);
@@ -257,10 +257,10 @@ public class Video extends JPanel implements KeyListener {
                 inspection(g2);
         }
         public void drawItMenu(Graphics2D g2)   {
-            System.out.println("hm");
             int x = width/2;
             g2.setColor(Color.black);
             g2.fillRect(0, 0, width, height);
+            g2.setColor(Color.white);
             g2.setStroke(new BasicStroke(5));
             g2.drawRect(0, 0, x, height);
             g2.drawRect(x, 0, x, height);
@@ -279,10 +279,10 @@ public class Video extends JPanel implements KeyListener {
                 inspection(g2);
         }
         public void drawPlayerStat(Graphics2D g2) {
-            System.out.println("waitaminut");
             int x = width / 2;
             g2.setColor(Color.black);
             g2.fillRect(0, 0, width, height);
+            g2.setColor(Color.white);
             g2.setStroke(new BasicStroke(5));
             g2.drawRect(0, 0, width, height);
             int y = 15;
@@ -298,6 +298,7 @@ public class Video extends JPanel implements KeyListener {
             int y = height/2 - 15;
             g2.setColor(Color.black);
             g2.fillRect(x, y, 30, 30);
+            g2.setColor(Color.white);
             g2.drawRect(x, y, 30, 30);
             g2.drawString("Use", x + 10, y + 10);
             g2.drawString("cancel", x + 5, y + 20);
@@ -434,15 +435,20 @@ public class Video extends JPanel implements KeyListener {
     }
     void mainMenuControl()  {
         System.out.println("wenk");
+        System.out.println("click " + click + " && " + hold);
+        System.out.println("inspect " + menu.inspect);
         if (click && !hold) {
             if (menu.inspect)
                 menu.use();
             else if (menu.state != 0)
                 menu.inspect = true;
+            else if (menu.mainOpt == menu.opts.length - 1)
+                menuing = false;
             else
                 menu.state += 1 + menu.mainOpt;
             hold = true;
         }
+        System.out.println("back " + back + " && " + hold);
         if (back && !hold)  {
             if (menu.inspect)
                 menu.inspect = false;
@@ -479,5 +485,6 @@ public class Video extends JPanel implements KeyListener {
                 }
                 break;
         }
+        System.out.println("state values: " + menu.state + " " + menu.mainOpt + " " + menu.subOpt);
     }
 }
