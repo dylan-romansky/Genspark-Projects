@@ -136,8 +136,10 @@ public class StateController {
                 last = panel.direct;
                 terra.update(fighter, hominids);
             }
-            else
+            else if (panel.direct != last || panel.click || panel.back) {
                 panel.mainMenuControl();
+                last = panel.direct;
+            }
             terra.draw();
             try {
                 long wait = (long) (nextUpdate - System.nanoTime()) / 1000000;

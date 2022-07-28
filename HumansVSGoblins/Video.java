@@ -222,17 +222,17 @@ public class Video extends JPanel implements KeyListener {
         public void drawMainMenu(Graphics2D g2) {
             int x = width/2;
             g2.setColor(Color.black);
-            g2.fillRect(x, 0, width/2, 0);
+            g2.fillRect(x, 0, width/2, height);
             g2.setColor(Color.white);
             g2.setStroke(new BasicStroke(5));
-            g2.drawRect(x, 0, width/2, 0);
-            int y = 5;
+            g2.drawRect(x, 0, width/2, height);
+            int y = 15;
             x += 5;
             for (String opt : opts) {
                 g2.drawString(opt, x, y);
                 y += 15;
             }
-            g2.drawLine(x,7 + (mainOpt * 15), getFontMetrics(getFont()).stringWidth(mainOpt < opts.length ? opts[mainOpt] : "close"), 7 + (mainOpt * 15));
+            g2.drawLine(x,17 + (mainOpt * 15), getFontMetrics(getFont()).stringWidth(mainOpt < opts.length ? opts[mainOpt] : "close"), 17 + (mainOpt * 15));
         }
         public void drawEquipMenu(Graphics2D g2)   {
             int x = width/2;
@@ -304,6 +304,11 @@ public class Video extends JPanel implements KeyListener {
         }
         public void use()   {
             Inventory inv = fighter.getInv();
+            int size = state == 1 ? inv.getWeapons().size() : inv.getItems().size();
+            if (subOpt == size) {
+                state = 0;
+                return;
+            }
             switch (menu.state) {
                 case 1:
                     if (subOpt == inv.getWeapons().size()) {
