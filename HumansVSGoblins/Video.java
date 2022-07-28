@@ -160,6 +160,7 @@ public class Video extends JPanel implements KeyListener {
             g2.drawString(fighter.toString() + " " + fighter.getHealth(), 50, height + 50);
             g2.drawString("Attack", 50, height + 100);
             g2.drawString("Inventory", 50, height + 120);
+            g2.setStroke(new BasicStroke(1));
             g2.drawLine(50, height + 102 + (selOpt * 20), getFontMetrics(getFont()).stringWidth(menuOpts[selOpt]), height + 102 + (selOpt * 20));
             int ypos = height + 50;
             int xpos = width - 150;
@@ -191,6 +192,7 @@ public class Video extends JPanel implements KeyListener {
                 y += 20;
             }
             g2.drawString("close", x, y);
+            g2.setStroke(new BasicStroke(1));
             g2.drawLine(x, 52 + (20 * chosIt), getFontMetrics(getFont()).stringWidth(chosIt < set.length ? set[chosIt] : "close"), 52 + (20 * chosIt));
         }
         public void addCombatants(Human hu, ArrayList<Humanoid> co) {
@@ -232,6 +234,7 @@ public class Video extends JPanel implements KeyListener {
                 g2.drawString(opt, x, y);
                 y += 15;
             }
+            g2.setStroke(new BasicStroke(1));
             g2.drawLine(x,17 + (mainOpt * 15), getFontMetrics(getFont()).stringWidth(mainOpt < opts.length ? opts[mainOpt] : "close"), 17 + (mainOpt * 15));
         }
         public void drawEquipMenu(Graphics2D g2)   {
@@ -253,6 +256,7 @@ public class Video extends JPanel implements KeyListener {
                 y += 10;
             }
             g2.drawString("cancel", x + 5, y);
+            g2.setStroke(new BasicStroke(1));
             g2.drawLine(x + 5,17 + (subOpt * 10), getFontMetrics(getFont()).stringWidth(mainOpt < opts.length ? opts[mainOpt] : "close"), 17 + (subOpt * 10));
             if (inspect)
                 inspection(g2);
@@ -276,6 +280,7 @@ public class Video extends JPanel implements KeyListener {
                 y += 10;
             }
             g2.drawString("cancel", x + 5, y);
+            g2.setStroke(new BasicStroke(1));
             g2.drawLine(x + 5,17 + (subOpt * 10), getFontMetrics(getFont()).stringWidth(mainOpt < opts.length ? opts[mainOpt] : "close"), 17 + (subOpt * 10));
             if (inspect)
                 inspection(g2);
@@ -307,6 +312,7 @@ public class Video extends JPanel implements KeyListener {
             g2.drawRect(x, y, 30, 30);
             g2.drawString("Use", x + 10, y + 10);
             g2.drawString("cancel", x + 5, y + 20);
+            g2.setStroke(new BasicStroke(1));
             if (inspecting == 0)
                 g2.drawLine(x + 10, y + 10, getFontMetrics(getFont()).stringWidth("Use"), y + 10);
             else
@@ -373,7 +379,7 @@ public class Video extends JPanel implements KeyListener {
             Humanoid targ = fight.combatants.get(fight.choGob);
             fight.fighter.attack(targ);
             if (targ.getHealth() <= 0) {
-                fight.lootPool.addItems(((Goblin) targ).drops());
+                fight.lootPool.addAll(((Goblin) targ).drops());
                 fight.combatants.remove(targ);
             }
             for (Humanoid combatant : fight.combatants) {

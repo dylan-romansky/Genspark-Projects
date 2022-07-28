@@ -18,11 +18,16 @@ public class Loot   {
         wep.add(Wep);
     }
     //for testing these are fine but they should be using entries to guarantee no loot is lost
-    public void addItems(Loot itemset){
+    public void addAll(Loot itemset){
+        gold += itemset.getGold();
         items.addAll(itemset.getItems());
+        wep.addAll(itemset.getWeapon());
     }
     public void addItems(HashSet<Consumable> itemset)  {
         items.addAll(itemset);
+    }
+    public void addGold(int g)  {
+        gold += g;
     }
     public int getGold(){
         return gold;
