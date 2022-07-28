@@ -222,10 +222,10 @@ public class Video extends JPanel implements KeyListener {
         public void drawMainMenu(Graphics2D g2) {
             int x = width/2;
             g2.setColor(Color.black);
-            g2.fillRect(x, 0, width/2, height);
+            g2.fillRect(x, 0, x, height);
             g2.setColor(Color.white);
             g2.setStroke(new BasicStroke(5));
-            g2.drawRect(x, 0, width/2, height);
+            g2.drawRect(x, 0, x, height);
             int y = 15;
             x += 5;
             for (String opt : opts) {
@@ -235,6 +235,7 @@ public class Video extends JPanel implements KeyListener {
             g2.drawLine(x,17 + (mainOpt * 15), getFontMetrics(getFont()).stringWidth(mainOpt < opts.length ? opts[mainOpt] : "close"), 17 + (mainOpt * 15));
         }
         public void drawEquipMenu(Graphics2D g2)   {
+            System.out.println("uh");
             int x = width/2;
             g2.setColor(Color.black);
             g2.fillRect(0, 0, width, height);
@@ -256,6 +257,7 @@ public class Video extends JPanel implements KeyListener {
                 inspection(g2);
         }
         public void drawItMenu(Graphics2D g2)   {
+            System.out.println("hm");
             int x = width/2;
             g2.setColor(Color.black);
             g2.fillRect(0, 0, width, height);
@@ -277,6 +279,7 @@ public class Video extends JPanel implements KeyListener {
                 inspection(g2);
         }
         public void drawPlayerStat(Graphics2D g2) {
+            System.out.println("waitaminut");
             int x = width / 2;
             g2.setColor(Color.black);
             g2.fillRect(0, 0, width, height);
@@ -290,6 +293,7 @@ public class Video extends JPanel implements KeyListener {
             g2.drawString("Dmg Total: " + (fighter.getAttack() + fighter.getWep().getMod()), x, 40);
         }
         public void inspection(Graphics2D g2)   {
+            System.out.println("grrr");
             int x = width/2 - 15;
             int y = height/2 - 15;
             g2.setColor(Color.black);
@@ -303,6 +307,7 @@ public class Video extends JPanel implements KeyListener {
                 g2.drawLine(x + 5, y + 20, getFontMetrics(getFont()).stringWidth("Cancel"), y + 20);
         }
         public void use()   {
+            System.out.println("arg");
             Inventory inv = fighter.getInv();
             int size = state == 1 ? inv.getWeapons().size() : inv.getItems().size();
             if (subOpt == size) {
@@ -428,6 +433,7 @@ public class Video extends JPanel implements KeyListener {
         fight.lootPool.emptyPool();
     }
     void mainMenuControl()  {
+        System.out.println("wenk");
         if (click && !hold) {
             if (menu.inspect)
                 menu.use();
@@ -444,6 +450,7 @@ public class Video extends JPanel implements KeyListener {
                 menu.state = 0;
             else
                 menuing = false;
+            hold = true;
         }
         switch (direct) {
             case UP:

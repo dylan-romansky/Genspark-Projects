@@ -134,12 +134,12 @@ public class StateController {
                     hominids.add(new Goblin(new Coordinates(x, y)));
                 }
                 last = panel.direct;
+                terra.update(fighter, hominids);
             }
             else if (panel.direct != last || panel.click || panel.back) {
                 panel.mainMenuControl();
                 last = panel.direct;
             }
-            terra.update(fighter, hominids);
             terra.draw();
             try {
                 long wait = (long) (nextUpdate - System.nanoTime()) / 1000000;
