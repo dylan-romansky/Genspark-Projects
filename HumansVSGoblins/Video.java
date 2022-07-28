@@ -331,6 +331,7 @@ public class Video extends JPanel implements KeyListener {
                     }
                     inv.getWeapons().add(fighter.getWep());
                     fighter.setWeapon(inv.getWeapons().get(subOpt));
+                    inv.getWeapons().remove(fighter.getWep());
                     break;
                 case 2:
                     if (subOpt == inv.getItems().size()) {
