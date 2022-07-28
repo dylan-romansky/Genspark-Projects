@@ -393,7 +393,6 @@ public class Video extends JPanel implements KeyListener {
         }
     }
     public void chooseItem()    {
-        System.out.println(back + " && " + hold);
         if (click && !hold) {
             fight.state = 0;
             if (fight.chosIt < fight.fighter.getInv().getItems().size())

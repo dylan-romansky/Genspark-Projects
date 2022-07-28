@@ -109,7 +109,7 @@ public class StateController {
         Video.directions last = Video.directions.NONE;
         while (playing) {
             double nextUpdate = System.nanoTime() + refreshRate;
-            if (panel.click && !panel.hold)
+            if (panel.click && !panel.hold && !panel.menuing)
                 panel.menuing = true;
             else if (!panel.menuing)    {
                 if (panel.direct != Video.directions.NONE && panel.direct != last) { //kinda hacky but it keeps the game responsive while also staying turn based
@@ -134,12 +134,12 @@ public class StateController {
                     hominids.add(new Goblin(new Coordinates(x, y)));
                 }
                 last = panel.direct;
-                terra.update(fighter, hominids);
             }
             else if (panel.direct != last || panel.click || panel.back) {
                 panel.mainMenuControl();
                 last = panel.direct;
             }
+            terra.update(fighter, hominids);
             terra.draw();
             try {
                 long wait = (long) (nextUpdate - System.nanoTime()) / 1000000;
