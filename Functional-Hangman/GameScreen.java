@@ -37,6 +37,7 @@ public class GameScreen extends JPanel implements KeyListener {
         catch (Exception e) {
             e.printStackTrace();
         }
+        c = '\0';
     }
     public void addHangman(FunctionalHangman hang)  {
         mang = hang;
@@ -63,8 +64,8 @@ public class GameScreen extends JPanel implements KeyListener {
             case 1:
                 g2.drawImage(_dude[0], width/2-42, height/4-50, 100, 100, null);
         }
-        g2.setFont(new Font("Times New Roman", Font.BOLD, 100));
-        g2.drawString(mang._getGuesses(), 20, height - 50);
+        g2.setFont(new Font("Times New Roman", Font.BOLD, 60));
+        g2.drawString(mang._getGuesses(), 20, height-27);
     }
 
     @Override
@@ -80,6 +81,8 @@ public class GameScreen extends JPanel implements KeyListener {
     public void keyReleased(KeyEvent keyEvent) {
     }
     public Character getChar()   {
-        return c;
+        Character tmp = c;
+        c = '\0';
+        return tmp;
     }
 }

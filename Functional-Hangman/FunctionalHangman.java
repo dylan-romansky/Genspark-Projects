@@ -32,7 +32,7 @@ public class FunctionalHangman	{
 		while (mang.exit != 0)	{
 			double nextUpdate = System.nanoTime() + refreshRate;
 			video.draw();
-			mang._playGame(video.getChar().toString());
+			mang._playGame(video.getChar());
 			if (mang.exit == 0) {
 				System.out.println("Play again?\n\n1: yes\n2: no");	//TODO: method of restarting the game
 				mang.exit = video.getChar() - '1';
@@ -57,17 +57,15 @@ public class FunctionalHangman	{
 		_guesses = _word.chars().map(a -> '_').toString();
 		_limbsCount = 0;
 	}
-	protected void _playGame(String c)	{
-		if (c.length() != 1) {
-			System.out.println("One letter at a time please");
+	protected void _playGame(Character _c)	{
+		String c = _c.toString();
+		if (_c == '\0')
 			return;
-		}
-		char _c = c.toCharArray()[0];
 		if (_guesses.contains(c))	{
 			System.out.println("You've already guessed " + c);
 			return;
 		}
-		System.out.println(_c);
+		System.out.println(c);
 		if (_word.contains(c)) {
 			StringBuffer n = new StringBuffer(_guesses);
 			Pattern.compile(c).matcher(_word).results().map(MatchResult::start).map(a -> {
