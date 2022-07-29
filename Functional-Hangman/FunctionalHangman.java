@@ -32,7 +32,7 @@ public class FunctionalHangman	{
 		while (mang.exit != 0)	{
 			double nextUpdate = System.nanoTime() + refreshRate;
 			video.draw();
-			mang._playGame();
+			//mang._playGame();
 			if (mang.exit == 0) {
 				System.out.println("Play again?\n\n1: yes\n2: no");
 				mang.exit = input.nextInt() - 1;
@@ -166,14 +166,14 @@ public class FunctionalHangman	{
 // write code that interacts with the web in a way that's braindead easy and gets
 // me the desired end result;
 	private String _genWord()	{
-//		return "stub".toUpperCase();
-		ChromeOptions opt = new ChromeOptions();
-		opt.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
-		WebDriver driver = new ChromeDriver(opt);
-		driver.get("https://randomwordgenerator.com/");
-		String ret = driver.findElement(By.xpath("//*[@id='result']/li")).getText();
-		driver.close();
+		return "stub".toUpperCase();
+//		ChromeOptions opt = new ChromeOptions();
+//		opt.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
+//		WebDriver driver = new ChromeDriver(opt);
+//		driver.get("https://randomwordgenerator.com/");
+//		String ret = driver.findElement(By.xpath("//*[@id='result']/li")).getText();
+//		driver.close();
 //		System.out.println(ret);
-		return ret.toUpperCase();
+//		return ret.toUpperCase();
 	}
 }
