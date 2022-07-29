@@ -2,30 +2,51 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import javax.swing.*;
+import java.awt.image.BufferedImage;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class FunctionalHangman	{
+	public int exit = 1;
 	private final String _word;
+	private final String _dude = "O/|\\/\\";
 	private final String[] _hanger;
 	private String _guesses;
 	private int _limbsCount;
-	private final String _dude = "O/|\\/\\";
 	private Scanner input;
-	public int exit = 1;
 
 	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
+		double refreshRate = 1000000000/60; //60 fps
+		JFrame screen = new JFrame("Hangman");
+		GameScreen video = new GameScreen(500, 500);
+		screen.setResizable(false);
+		screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		screen.add(video);
+		screen.pack();
+		screen.setLocationRelativeTo(null);
+		screen.setVisible(true);
+		Scanner input = new Scanner(System.in); //replace with a new method of text input
 		FunctionalHangman mang = new FunctionalHangman(input);
+		video.addHangman(mang);
 		while (mang.exit != 0)	{
+			double nextUpdate = System.nanoTime() + refreshRate;
+			video.draw();
 			mang._playGame();
 			if (mang.exit == 0) {
 				System.out.println("Play again?\n\n1: yes\n2: no");
 				mang.exit = input.nextInt() - 1;
 				if (mang.exit != 0)
-					mang = new FunctionalHangman(input);
+					video.addHangman(new FunctionalHangman(input));
+			}
+			try {
+				long wait = (long) (nextUpdate - System.nanoTime()) / 1000000;
+				Thread.sleep(wait < 0 ? 0 : wait);  }
+			catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+		screen.dispose();
 	}
 	public FunctionalHangman(Scanner in)	{
 		input = in;
@@ -131,6 +152,9 @@ public class FunctionalHangman	{
 	}
 	protected String _getGuesses()	{
 		return _guesses;
+	}
+	public int getLimbscount()	{
+		return _limbsCount;
 	}
 	protected void _setLimbscount(int newCount)	{
 		_limbsCount = newCount;
