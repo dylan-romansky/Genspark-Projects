@@ -1,23 +1,26 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class GameScreen extends JPanel {
+public class GameScreen extends JPanel implements KeyListener {
     private BufferedImage _hanger;
     private BufferedImage _background;
     private BufferedImage[] _dude = new BufferedImage[4];
     private FunctionalHangman mang;
     private int width;
     private int height;
+    private Character c;
     private final String[] artPaths = {"resources/hed.png", "resources/bod.png", "resources/Legarm.png", "resources/legaRm.png"};
 
     GameScreen(int x, int y) {
         setPreferredSize(new Dimension(x, y));
         setBackground(Color.black);
         setDoubleBuffered(true);
-        //addKeyListener(this);
+        addKeyListener(this);
         setFocusable(true);
         width = x;
         height = y;
@@ -46,21 +49,37 @@ public class GameScreen extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(_background, 0, 0, width, height, null);
         g2.drawImage(_hanger, 0, 0, width, height, null);
-        //the following x and y values are placeholders till I've drawn up my assets
-        //switch (mang.getLimbscount())   {
-        //    case 6:
+        switch (mang.getLimbscount())   {
+            case 6:
                 g2.drawImage(_dude[3], width/2-7, height/4+107, 100, 100, null);
-        //    case 5:
+            case 5:
                 g2.drawImage(_dude[2], width/2-72, height/4+105, 100, 100, null);
-        //    case 4:
+            case 4:
                 g2.drawImage(_dude[3], width/2-7, height/4+25, 100, 100, null);
-        //    case 3
+            case 3:
                 g2.drawImage(_dude[2], width/2-72, height/4+25, 100, 100, null);
-        //    case 2:
+            case 2:
                 g2.drawImage(_dude[1], width/2-42, height/4+25, 100, 100, null);
-        //    case 1:
+            case 1:
                 g2.drawImage(_dude[0], width/2-42, height/4-50, 100, 100, null);
-        //}
-        //g2.drawString(mang._getGuesses(), startX, startY);
+        }
+        g2.setFont(new Font("Times New Roman", Font.BOLD, 100));
+        g2.drawString(mang._getGuesses(), 20, height - 50);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+        c = keyEvent.getKeyChar();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
+    }
+    public Character getChar()   {
+        return c;
     }
 }

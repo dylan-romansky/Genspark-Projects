@@ -3,9 +3,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import javax.swing.*;
-import java.awt.image.BufferedImage;
+import java.util.Collections;
 import java.util.Objects;
-import java.util.Scanner;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class FunctionalHangman	{
 	public int exit = 1;
@@ -14,7 +16,6 @@ public class FunctionalHangman	{
 	private final String[] _hanger;
 	private String _guesses;
 	private int _limbsCount;
-	private Scanner input;
 
 	public static void main(String[] args) {
 		double refreshRate = 1000000000/60; //60 fps
@@ -26,18 +27,17 @@ public class FunctionalHangman	{
 		screen.pack();
 		screen.setLocationRelativeTo(null);
 		screen.setVisible(true);
-		Scanner input = new Scanner(System.in); //replace with a new method of text input
-		FunctionalHangman mang = new FunctionalHangman(input);
+		FunctionalHangman mang = new FunctionalHangman();
 		video.addHangman(mang);
 		while (mang.exit != 0)	{
 			double nextUpdate = System.nanoTime() + refreshRate;
 			video.draw();
-			//mang._playGame();
+			mang._playGame(video.getChar().toString());
 			if (mang.exit == 0) {
-				System.out.println("Play again?\n\n1: yes\n2: no");
-				mang.exit = input.nextInt() - 1;
+				System.out.println("Play again?\n\n1: yes\n2: no");	//TODO: method of restarting the game
+				mang.exit = video.getChar() - '1';
 				if (mang.exit != 0)
-					video.addHangman(new FunctionalHangman(input));
+					video.addHangman(new FunctionalHangman());
 			}
 			try {
 				long wait = (long) (nextUpdate - System.nanoTime()) / 1000000;
@@ -48,41 +48,16 @@ public class FunctionalHangman	{
 		}
 		screen.dispose();
 	}
-	public FunctionalHangman(Scanner in)	{
-		input = in;
-		_word = _genWord();
-		_hanger = new String[3];
-		_hanger[0] = "+-+";
-		_hanger[1] = "|";
-		_hanger[2] = "===";
-		_guesses = "";
-		_limbsCount = 0;
-		for (int i = _word.length(); i > 0; i--)
-			_guesses += "_";
-	}
 	public FunctionalHangman()	{
 		_word = _genWord();
 		_hanger = new String[3];
 		_hanger[0] = "+-+";
 		_hanger[1] = "|";
 		_hanger[2] = "===";
-		_guesses = "";
+		_guesses = _word.chars().map(a -> '_').toString();
 		_limbsCount = 0;
-		for (int i = _word.length(); i > 0; i--)
-			_guesses += "_";
 	}
-	protected void _playGame()	{
-		_printMan();
-		String c = "";
-		try {
-			c = input.nextLine().toUpperCase();
-			System.out.println(_word);
-			System.out.println(c);
-		}
-		catch (Exception e)	{
-			System.out.println("Error: invalid input");
-			return;
-		}
+	protected void _playGame(String c)	{
 		if (c.length() != 1) {
 			System.out.println("One letter at a time please");
 			return;
@@ -94,12 +69,11 @@ public class FunctionalHangman	{
 		}
 		System.out.println(_c);
 		if (_word.contains(c)) {
-			StringBuilder bob = new StringBuilder(_guesses);
-			for (int i = _word.length() - 1; i >= 0; i--) {
-				if (_c == _word.toUpperCase().charAt(i))
-					bob.setCharAt(i, _c);
-			}
-			_guesses = bob.toString();
+			StringBuffer n = new StringBuffer(_guesses);
+			Pattern.compile(c).matcher(_word).results().map(MatchResult::start).map(a -> {
+				n.setCharAt(a, _c);//would replace the second map with .forEach(a -> n.setCharAt(a, _c)); if I didn't have to strictly use map, reduce, or filter
+				return a;
+			});
 		}
 		else
 			addlimb();
@@ -114,7 +88,6 @@ public class FunctionalHangman	{
 				exit = 0;
 			}
 		}
-		_printMan();
 	}
 	protected int checkVictory() {
 		if (0 >_limbsCount || _limbsCount >= 6)
@@ -126,26 +99,6 @@ public class FunctionalHangman	{
 	public void addlimb()	{
 		_limbsCount++;
 		//open file for the next limb
-	}
-	private void _printMan()	{
-		System.out.println(_hanger[0]);
-		String body = "";
-		if (_limbsCount > 0) {
-			body += ' ';
-			body += _dude.charAt(0);
-		}
-		System.out.println(_hanger[1] + body);
-		body = "";
-		for (int i = 1; i < _limbsCount && i <= 3; i++)
-			body += _dude.charAt(i);
-		System.out.println(_hanger[1].concat(body));
-		body = "";
-		for (int i = 4; i < _limbsCount; i++)
-			body += _dude.charAt(i);
-		System.out.println(_hanger[1].concat(body));
-		System.out.println(_hanger[2]);
-		System.out.print(_guesses);
-		System.out.println(": " + _word.length() + " characters");
 	}
 	protected String _getWord()	{
 		return _word;
