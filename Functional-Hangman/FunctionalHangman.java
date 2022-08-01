@@ -72,8 +72,12 @@ public class FunctionalHangman {
 		_hanger[0] = "+-+";
 		_hanger[1] = "|";
 		_hanger[2] = "===";
-		_guesses = _word.chars().map(a -> '_').toString();
+		_guesses = guesslineGen(_word.length());
 		_limbsCount = 0;
+	}
+	public String guesslineGen(int len)	{ // I'm not a loop! You're a loop!
+		System.out.println("ye");
+		return len > 1 ? "_" + guesslineGen(len - 1) : "_";
 	}
 	protected void _playGame(Character _c)	{
 		String c = _c.toString();
@@ -84,8 +88,11 @@ public class FunctionalHangman {
 			return;
 		}
 		System.out.println(c);
+		System.out.println(_word);
 		if (_word.contains(c)) {
+			System.out.println("weh");
 			StringBuffer n = new StringBuffer(_guesses);
+			System.out.println(Pattern.compile(c).matcher(_word).groupCount());
 			Pattern.compile(c).matcher(_word).results().map(MatchResult::start).map(a -> {
 				n.setCharAt(a, _c);//would replace the second map with .forEach(a -> n.setCharAt(a, _c)); if I didn't have to strictly use map, reduce, or filter
 				return a;

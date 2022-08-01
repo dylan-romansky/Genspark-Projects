@@ -66,9 +66,10 @@ public class GameScreen extends JPanel implements ActionListener   {
                 g2.drawImage(_dude[0], width/2-42, height/4-50, 100, 100, null);
         }
         g2.setFont(new Font("Times New Roman", Font.BOLD, 60));
+        System.out.println(mang._getGuesses());
         g2.drawString(mang._getGuesses(), 20, height-27);
     }
-    public Character getChar()   {
+    public Character getChar() {
         System.out.println(text.getValue());
         return (Character) text.getValue();
     }
