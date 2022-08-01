@@ -3,13 +3,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class FunctionalHangman	{
+public class FunctionalHangman {
 	public int exit = 1;
 	private final String _word;
 	private final String _dude = "O/|\\/\\";
@@ -18,12 +21,24 @@ public class FunctionalHangman	{
 	private int _limbsCount;
 
 	public static void main(String[] args) {
+		int width = 500, height = 500;
 		double refreshRate = 1000000000/60; //60 fps
 		JFrame screen = new JFrame("Hangman");
-		GameScreen video = new GameScreen(500, 500);
+		GameScreen video = new GameScreen(width, height);
 		screen.setResizable(false);
 		screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JFormattedTextField text;
+		try {
+			text = new JFormattedTextField(new MaskFormatter("U"));
+			text.setBounds(width/2, height - 25, 50, 50);
+			video.add(text);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			System.exit(1);
+		}
 		screen.add(video);
+		//screen.setLayout(null);
 		screen.pack();
 		screen.setLocationRelativeTo(null);
 		screen.setVisible(true);
@@ -32,7 +47,6 @@ public class FunctionalHangman	{
 		while (mang.exit != 0)	{
 			double nextUpdate = System.nanoTime() + refreshRate;
 			video.draw();
-			mang._playGame(video.getChar());
 			if (mang.exit == 0) {
 				System.out.println("Play again?\n\n1: yes\n2: no");	//TODO: method of restarting the game
 				mang.exit = video.getChar() - '1';

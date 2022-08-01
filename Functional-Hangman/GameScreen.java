@@ -1,26 +1,28 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class GameScreen extends JPanel implements KeyListener {
+public class GameScreen extends JPanel implements ActionListener   {
     private BufferedImage _hanger;
     private BufferedImage _background;
     private BufferedImage[] _dude = new BufferedImage[4];
     private FunctionalHangman mang;
     private int width;
     private int height;
-    private Character c;
+    public JFormattedTextField text;
     private final String[] artPaths = {"resources/hed.png", "resources/bod.png", "resources/Legarm.png", "resources/legaRm.png"};
 
     GameScreen(int x, int y) {
         setPreferredSize(new Dimension(x, y));
         setBackground(Color.black);
         setDoubleBuffered(true);
-        addKeyListener(this);
         setFocusable(true);
         width = x;
         height = y;
@@ -37,7 +39,6 @@ public class GameScreen extends JPanel implements KeyListener {
         catch (Exception e) {
             e.printStackTrace();
         }
-        c = '\0';
     }
     public void addHangman(FunctionalHangman hang)  {
         mang = hang;
@@ -67,22 +68,12 @@ public class GameScreen extends JPanel implements KeyListener {
         g2.setFont(new Font("Times New Roman", Font.BOLD, 60));
         g2.drawString(mang._getGuesses(), 20, height-27);
     }
-
-    @Override
-    public void keyTyped(KeyEvent keyEvent) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent keyEvent) {
-        c = keyEvent.getKeyChar();
-    }
-
-    @Override
-    public void keyReleased(KeyEvent keyEvent) {
-    }
     public Character getChar()   {
-        Character tmp = c;
-        c = '\0';
-        return tmp;
+        System.out.println(text.getValue());
+        return (Character) text.getValue();
+    }
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        mang._playGame(text.getText().toCharArray()[0]);
     }
 }
