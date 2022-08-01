@@ -72,6 +72,9 @@ public class GameScreen extends JPanel implements ActionListener   {
         System.out.println(text.getValue());
         return (Character) text.getValue();
     }
+    public void setTextfield(JFormattedTextField t)  {
+        text = t;
+    }
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         mang._playGame(text.getText().toCharArray()[0]);

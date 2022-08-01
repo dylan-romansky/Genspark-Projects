@@ -31,6 +31,10 @@ public class FunctionalHangman {
 		try {
 			text = new JFormattedTextField(new MaskFormatter("U"));
 			text.setBounds(width/2, height - 25, 50, 50);
+			text.setEditable(true);
+			text.setColumns(1);
+			text.setVisible(true);
+			video.setTextfield(text);
 			video.add(text);
 		}
 		catch (Exception e){
