@@ -6,11 +6,13 @@ import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javax.json.*;
 
 public class FunctionalHangman {
 	public int exit = 1;
@@ -24,13 +26,15 @@ public class FunctionalHangman {
 		int width = 500, height = 500;
 		double refreshRate = 1000000000/60; //60 fps
 		JFrame screen = new JFrame("Hangman");
-		GameScreen video = new GameScreen(width, height);
+		screen.setLayout(null);
+		screen.setBounds(0, 0, width, height);
 		screen.setResizable(false);
 		screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		GameScreen video = new GameScreen(width, height);
 		JFormattedTextField text;
 		try {
 			text = new JFormattedTextField(new MaskFormatter("U"));
-			text.setBounds(width/2, height - 25, 50, 50);
+			text.setBounds((width/2)-25, height - 175, 50, 50);
 			text.setEditable(true);
 			text.setColumns(1);
 			text.setVisible(true);

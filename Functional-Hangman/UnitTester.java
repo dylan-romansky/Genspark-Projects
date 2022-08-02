@@ -46,7 +46,7 @@ public class UnitTester {
         JFormattedTextField text;
         try {
             text = new JFormattedTextField(new MaskFormatter("U"));
-            text.setBounds(width/2, height - 25, 50, 50);
+            text.setBounds(width/2-25, height - 75, 50, 50);
             text.setEditable(true);
             text.setColumns(1);
             text.setVisible(true);
@@ -58,10 +58,9 @@ public class UnitTester {
             System.exit(1);
         }
         screen.add(video);
-        //screen.setLayout(null);
         screen.pack();
         screen.setLocationRelativeTo(null);
-        screen.setVisible(true);
+        screen.setVisible(true);;
         video.addHangman(hang);
         video.draw();
         Character[] cs = {'u','t','s','b'};
@@ -74,6 +73,7 @@ public class UnitTester {
             }
             video.draw();
         }
+        assert(hang._getGuesses().compareTo("stub") == 0);
     }
     @Test
     public void testGameloop() { //this test needs to be reworked to account for new loopless game logic and also that exit is 1 while playing, 0 when done
@@ -113,12 +113,5 @@ public class UnitTester {
         catch (Exception e) {
             fail(); //if we encounter an unhandled exception we fail
         }
-    }
-
-    public static void main(String[] args)  {
-        UnitTester test = new UnitTester();
-        test.testWordGen();
-        test.testWinCon();
-        test.testGameloop();
     }
 }

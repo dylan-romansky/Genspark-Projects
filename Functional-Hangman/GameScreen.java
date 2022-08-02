@@ -20,6 +20,7 @@ public class GameScreen extends JPanel implements ActionListener   {
     private final String[] artPaths = {"resources/hed.png", "resources/bod.png", "resources/Legarm.png", "resources/legaRm.png"};
 
     GameScreen(int x, int y) {
+        setLayout(null);
         setPreferredSize(new Dimension(x, y));
         setBackground(Color.black);
         setDoubleBuffered(true);
