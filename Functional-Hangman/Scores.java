@@ -1,5 +1,7 @@
 import javax.json.*;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -35,7 +37,35 @@ public class Scores {
         }
     }
     public void writeHighScores()   {
-        JsonObject sc = new
+        JsonObjectBuilder sc = Json.createObjectBuilder();
+        score = scores.get(0);
+        sc.add("name1", score.getName());
+        sc.add("score1", score.getScore());
+        score = scores.get(1);
+        sc.add("name2", score.getName());
+        sc.add("score2", score.getScore());
+        score = scores.get(2);
+        sc.add("name3", score.getName());
+        sc.add("score3", score.getScore());
+        score = scores.get(3);
+        sc.add("name4", score.getName());
+        sc.add("score4", score.getScore());
+        score = scores.get(4);
+        sc.add("name5", score.getName());
+        sc.add("score5", score.getScore());
+        File outf = new File("scores.txt");
+        try {
+            if (!outf.exists())
+                outf.createNewFile();
+            FileOutputStream out = new FileOutputStream(outf);
+            JsonWriter writer = Json.createWriter(out);
+            writer.write(sc.build());
+            writer.close();
+            out.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void addScore(String name, int scor)    {
         score = new Score();
@@ -66,6 +96,7 @@ public class Scores {
         sco[4] = score.getName();
         if (sco[4].length() != 0)
             sco[4] += ": " + score.getScore();
+        return sco;
     }
     private class Score {
         private String name;
