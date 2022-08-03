@@ -37,9 +37,22 @@ public class FunctionalHangman {
 			text.setBounds((width/2)-25, height - 175, 50, 50);
 			text.setEditable(true);
 			text.setColumns(1);
-			text.setVisible(true);
+			text.setVisible(false);
 			video.setTextfield(text);
 			video.add(text);
+		}
+		catch (Exception e){
+			e.printStackTrace();
+			System.exit(1);
+		}
+		JTextField name;
+		try {
+			name = new JTextField(12);
+			name.setVisible(true);
+			name.setEditable(true);
+			name.setBounds(width/2-100, 100, 200, 10);
+			video.add(name);
+			video.setNameField(name);
 		}
 		catch (Exception e){
 			e.printStackTrace();

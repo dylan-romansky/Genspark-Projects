@@ -3,6 +3,7 @@ import org.junit.*;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -10,6 +11,14 @@ import static org.junit.Assert.*;
 public class UnitTester {
     FunctionalHangman hang = new FunctionalHangman();
     GameScreen video = new GameScreen(500, 500);
+    Scores scores = new Scores();
+    File scoreFile = new File("test.json");
+    @After
+    public void success()   {
+        System.out.println("Success!");
+        if (scoreFile.exists())
+            scoreFile.delete();
+    }
     @Test
     public void testWordGen()  {
         System.out.println("Testing word generator");
@@ -73,7 +82,7 @@ public class UnitTester {
             }
             video.draw();
         }
-        assert(hang._getGuesses().compareTo("stub") == 0);
+        assert hang._getGuesses().compareTo("stub") == 0;
     }
     @Test
     public void testGameloop() { //this test needs to be reworked to account for new loopless game logic and also that exit is 1 while playing, 0 when done
@@ -113,5 +122,70 @@ public class UnitTester {
         catch (Exception e) {
             fail(); //if we encounter an unhandled exception we fail
         }
+    }
+    @Test
+    public void scoreTest() {
+        System.out.println("Testing score adding and sorting");
+        String[] expected = {"chad: 9999", "greg: 8328", "julian: 6340", "steve: 1234", "kyle: 1232"};
+        scores.add("julian", 6340);
+        scores.add("greg", 8328);
+        scores.add("steve", 1234);
+        scores.add("kyle", 1232);
+        scores.add("chad", 9999);
+        String[] results = scores.getScores();
+        for (String s : results)
+            System.out.println(s);
+        for (int i = 0; i < 5; i++) {
+            System.out.println(results[i] + " == " + expected[i]);
+            assert expected[i].compareTo(results[i]) == 0;
+        }
+        System.out.println("\nTesting score write to/read from file");
+        System.out.println("writing...");
+        scores.writeHighScores(scoreFile);
+        System.out.println("checking for file...");
+        assert scoreFile.exists();
+        System.out.println("making new scoreboard...");
+        scores = new Scores();
+        System.out.println("reading scores from file...");
+        scores.readHighScores(scoreFile);
+        results = scores.getScores();
+        for (String s : results)
+            System.out.println(s);
+        for (int i = 0; i < 5; i++) {
+            System.out.println(results[i] + " == " + expected[i]);
+            assert expected[i].compareTo(results[i]) == 0;
+        }
+        System.out.println("\nTesting addition of more scores on a full scoreboard");
+        scores.add("chad", 9999);
+        scores.add("chad", 9999);
+        scores.add("chad", 9999);
+        scores.add("chad", 9999);
+        results = scores.getScores();
+        assert(results.length == 5);
+        for (String result : results)   {
+            System.out.println(result + " == chad: 9999");
+            assert result.compareTo("chad: 9999") == 0;
+        }
+    }
+    @Test
+    public void testEmptyScores()   {
+        System.out.println("Testing behaviour on an empty scoreboard");
+        System.out.println("Attempting read on a nonexistent file");
+        System.out.println("-if we crash, we fail");
+        try {
+            scores.readHighScores(scoreFile); //test exception handling for when the file doesn't exist. if it doesn't crash, we're successful
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            fail("Unhandled exception");
+        }
+        System.out.println("\nWriting empty scoreboard");
+        scores.writeHighScores();
+        assert (scoreFile.exists());
+        System.out.println("Reading empty scoreboard");
+        scores = new Scores(scoreFile);
+        scores.readHighScores();
+        for (String score : scores.getScores())
+            assert score.compareTo("") == 0;
     }
 }
