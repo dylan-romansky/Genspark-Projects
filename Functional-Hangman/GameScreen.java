@@ -23,7 +23,7 @@ public class GameScreen extends JPanel implements ActionListener   {
 
     GameScreen(int x, int y) {
         setLayout(null);
-        setPreferredSize(new Dimension(x, y));
+        setBounds(0, 0, x, y);
         setBackground(Color.black);
         setDoubleBuffered(true);
         setFocusable(true);
@@ -38,9 +38,19 @@ public class GameScreen extends JPanel implements ActionListener   {
             _dude[1] = ImageIO.read(new File(artPaths[1]));
             _dude[2] = ImageIO.read(new File(artPaths[2]));
             _dude[3] = ImageIO.read(new File(artPaths[3]));
+            text = new JFormattedTextField(new MaskFormatter("U"));
+            text.setBounds((width/2)-25, height - 175, 50, 50);
+            text.setEditable(true);
+            text.setColumns(1);
+            text.setVisible(false);
+            name = new JTextField(12);
+            name.setBounds(width/2-100, 100, 200, 10);
+            name.setEditable(true);
+            name.setVisible(true);
         }
         catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
         }
     }
     public void addHangman(FunctionalHangman hang)  {
@@ -86,9 +96,11 @@ public class GameScreen extends JPanel implements ActionListener   {
         return (Character) text.getValue();
     }
     public void setTextfield(JFormattedTextField t)  {
+        add(t);
         text = t;
     }
     public void setNameField(JTextField t)  {
+        add(t);
         name = t;
     }
     public void setState(int state) {
