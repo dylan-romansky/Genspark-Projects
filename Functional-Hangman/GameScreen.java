@@ -44,7 +44,7 @@ public class GameScreen extends JPanel implements ActionListener   {
             text.setColumns(1);
             text.setVisible(false);
             name = new JTextField(12);
-            name.setBounds(width/2-100, 100, 200, 10);
+            name.setBounds(width/2-100, 360, 200, 10);
             name.setEditable(true);
             name.setVisible(true);
         }
@@ -68,9 +68,14 @@ public class GameScreen extends JPanel implements ActionListener   {
             case 0 -> drawNameEntry(g2);
             case 1 -> drawGame(g2);
         }
+        System.out.println(name.getSize());
+        System.out.println(name.getLocation());
     }
     public void drawNameEntry(Graphics2D g2)    {
-        g2.drawString("Please enter your name (12 character limit)", width/2-100, 100);
+        g2.drawString("Please enter", width/2-150, 60);
+        g2.drawString("your name", width/2-130, 160);
+        g2.drawString("(12 character limit)", width/2-251, 260);
+        name.paint(g2);
     }
     public void drawGame(Graphics2D g2)  {
         g2.drawImage(_hanger, 0, 0, width, height, null);
