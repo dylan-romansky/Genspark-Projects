@@ -18,6 +18,9 @@ public class GameScreen extends JPanel implements ActionListener   {
     private int height;
     private int state = 0;
     public JFormattedTextField text, name;
+    private String player;
+    private int score;
+    private Scores scoreboard = new Scores();
     private final String[] artPaths = {"resources/hed.png", "resources/bod.png", "resources/Legarm.png", "resources/legaRm.png"};
 
     GameScreen(int x, int y) {
@@ -37,23 +40,12 @@ public class GameScreen extends JPanel implements ActionListener   {
             _dude[1] = ImageIO.read(new File(artPaths[1]));
             _dude[2] = ImageIO.read(new File(artPaths[2]));
             _dude[3] = ImageIO.read(new File(artPaths[3]));
-//           text = new JFormattedTextField(new MaskFormatter("U"));
-//           text.setBounds((width/2)-25, height - 175, 50, 50);
-//           text.setColumns(1);
-//           text.setEditable(true);
-//           text.setVisible(false);
-//           name = new JFormattedTextField(new MaskFormatter("????????????"));
-//           name.setBounds(width/2-100, 360, 200, 10);
-//           name.setColumns(12);
-//           name.setEditable(true);
-//           name.setVisible(true);
-//           this.add(name);
-//           this.add(text);
         }
         catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
+        scoreboard.readHighScores();
     }
     public void addHangman(FunctionalHangman hang)  {
         mang = hang;
@@ -117,6 +109,7 @@ public class GameScreen extends JPanel implements ActionListener   {
                 text.setVisible(false);
             }
             case 1 -> {
+                player = name.getText();
                 name.setVisible(false);
                 text.setVisible(true);
             }

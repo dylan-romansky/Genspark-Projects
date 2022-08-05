@@ -23,7 +23,7 @@ public class Scores {
         readHighScores(scoreFile);
     }
     public void readHighScores()    {
-        readHighScores(new File("scores.txt"));
+        readHighScores(new File("scores.json"));
     }
     public void readHighScores(File scoreFile) {
         try {
@@ -56,10 +56,11 @@ public class Scores {
             add(score);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("If the game is running for the first time, this is not an error");
         }
     }
     public void writeHighScores()   {
-        writeHighScores(new File("scores.txt"));
+        writeHighScores(new File("scores.json"));
     }
     public void writeHighScores(File scoreFile)   {
         JsonObjectBuilder sc = Json.createObjectBuilder();
