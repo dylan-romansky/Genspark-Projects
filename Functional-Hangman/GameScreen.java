@@ -70,8 +70,6 @@ public class GameScreen extends JPanel implements ActionListener   {
             case 0 -> drawNameEntry(g2);
             case 1 -> drawGame(g2);
         }
-        System.out.println(name.getSize());
-        System.out.println(name.getLocation());
     }
     public void drawNameEntry(Graphics2D g2)    {
         g2.drawString("Please enter", width/2-150, 60);
@@ -103,10 +101,12 @@ public class GameScreen extends JPanel implements ActionListener   {
     }
     public void setTextfield(JFormattedTextField t)  {
         add(t);
+        t.addActionListener(this);
         text = t;
     }
     public void setNameField(JFormattedTextField t)  {
         add(t);
+        t.addActionListener(this);
         name = t;
     }
     public void setState(int state) {
