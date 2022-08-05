@@ -4,6 +4,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -29,6 +30,29 @@ public class FunctionalHangman {
 		screen.setLayout(null);
 		screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GameScreen video = new GameScreen(width, height);
+		try	{
+			JFormattedTextField text, name;
+			text = new JFormattedTextField(new MaskFormatter("U"));
+			text.setFont(new Font("Times New Roman", Font.PLAIN, 60));
+			text.setBounds((width/2)-25, height - 175, 50, 60);
+			text.setColumns(1);
+			text.setEditable(true);
+			text.setVisible(false);
+			name = new JFormattedTextField(new MaskFormatter("????????????"));
+			name.setFont(new Font("Times New Roman", Font.PLAIN, 60));
+			name.setBounds(width/2-175, 310, 330, 70);
+			name.setColumns(12);
+			name.setEditable(true);
+			name.setVisible(true);
+			screen.add(name);
+			screen.add(text);
+			video.setNameField(name);
+			video.setTextfield(text);
+		}
+		catch (Exception e)	{
+			e.printStackTrace();
+			System.exit(1);
+		}
 		screen.add(video);
 		screen.pack();
 		screen.setSize(width, height);

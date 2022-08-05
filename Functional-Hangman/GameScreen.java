@@ -17,8 +17,7 @@ public class GameScreen extends JPanel implements ActionListener   {
     private int width;
     private int height;
     private int state = 0;
-    public JFormattedTextField text;
-    public JTextField name;
+    public JFormattedTextField text, name;
     private final String[] artPaths = {"resources/hed.png", "resources/bod.png", "resources/Legarm.png", "resources/legaRm.png"};
 
     GameScreen(int x, int y) {
@@ -38,15 +37,18 @@ public class GameScreen extends JPanel implements ActionListener   {
             _dude[1] = ImageIO.read(new File(artPaths[1]));
             _dude[2] = ImageIO.read(new File(artPaths[2]));
             _dude[3] = ImageIO.read(new File(artPaths[3]));
-            text = new JFormattedTextField(new MaskFormatter("U"));
-            text.setBounds((width/2)-25, height - 175, 50, 50);
-            text.setEditable(true);
-            text.setColumns(1);
-            text.setVisible(false);
-            name = new JTextField(12);
-            name.setBounds(width/2-100, 360, 200, 10);
-            name.setEditable(true);
-            name.setVisible(true);
+//           text = new JFormattedTextField(new MaskFormatter("U"));
+//           text.setBounds((width/2)-25, height - 175, 50, 50);
+//           text.setColumns(1);
+//           text.setEditable(true);
+//           text.setVisible(false);
+//           name = new JFormattedTextField(new MaskFormatter("????????????"));
+//           name.setBounds(width/2-100, 360, 200, 10);
+//           name.setColumns(12);
+//           name.setEditable(true);
+//           name.setVisible(true);
+//           this.add(name);
+//           this.add(text);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -75,7 +77,6 @@ public class GameScreen extends JPanel implements ActionListener   {
         g2.drawString("Please enter", width/2-150, 60);
         g2.drawString("your name", width/2-130, 160);
         g2.drawString("(12 character limit)", width/2-251, 260);
-        name.paint(g2);
     }
     public void drawGame(Graphics2D g2)  {
         g2.drawImage(_hanger, 0, 0, width, height, null);
@@ -104,7 +105,7 @@ public class GameScreen extends JPanel implements ActionListener   {
         add(t);
         text = t;
     }
-    public void setNameField(JTextField t)  {
+    public void setNameField(JFormattedTextField t)  {
         add(t);
         name = t;
     }
