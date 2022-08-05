@@ -85,7 +85,6 @@ public class GameScreen extends JPanel implements ActionListener   {
             case 1:
                 g2.drawImage(_dude[0], width/2-42, height/4-50, 100, 100, null);
         }
-        System.out.println(mang._getGuesses());
         g2.drawString(mang._getGuesses(), 20, height-27);
         g2.drawString("Guess box:", 50, height-135);
     }

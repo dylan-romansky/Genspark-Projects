@@ -11,8 +11,10 @@ import java.io.FileInputStream;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.json.*;
 
 public class FunctionalHangman {
@@ -89,7 +91,7 @@ public class FunctionalHangman {
 		_limbsCount = 0;
 	}
 	public String guesslineGen(int len)	{ // I'm not a loop! You're a loop!
-		System.out.println("ye");
+//		System.out.println("ye");
 		return len > 1 ? "_" + guesslineGen(len - 1) : "_";
 	}
 	protected void _playGame(Character _c)	{
@@ -100,16 +102,15 @@ public class FunctionalHangman {
 			System.out.println("You've already guessed " + c);
 			return;
 		}
-		System.out.println(c);
-		System.out.println(_word);
+//		System.out.println(c);
+//		System.out.println(_word);
 		if (_word.contains(c)) {
-			System.out.println("weh");
+			System.out.println(c + " in " + _word);
 			StringBuffer n = new StringBuffer(_guesses);
-			System.out.println(Pattern.compile(c).matcher(_word).groupCount());
-			Pattern.compile(c).matcher(_word).results().map(MatchResult::start).map(a -> {
-				n.setCharAt(a, _c);//would replace the second map with .forEach(a -> n.setCharAt(a, _c)); if I didn't have to strictly use map, reduce, or filter
-				return a;
-			});
+			Matcher match = Pattern.compile(c).matcher(_word);
+			match.results().map(MatchResult::start).forEach(a -> n.setCharAt(a, _c));
+			System.out.println(n);
+			_guesses = n.toString();
 		}
 		else
 			addlimb();
@@ -155,7 +156,7 @@ public class FunctionalHangman {
 // write code that interacts with the web in a way that's braindead easy and gets
 // me the desired end result;
 	private String _genWord()	{
-		return "stub".toUpperCase();
+		return "stubs".toUpperCase();
 //		ChromeOptions opt = new ChromeOptions();
 //		opt.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
 //		WebDriver driver = new ChromeDriver(opt);
