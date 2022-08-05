@@ -63,21 +63,23 @@ public class FunctionalHangman {
 		screen.setLocationRelativeTo(null);
 		FunctionalHangman mang = new FunctionalHangman();
 		video.addHangman(mang);
-		while (mang.exit != 0)	{
+		while (mang.exit != 0) {
 			double nextUpdate = System.nanoTime() + refreshRate;
+			if (mang.exit == 2)
+				video.endGame();
 			video.draw();
-			if (mang.exit == 0) {
-				System.out.println("Play again?\n\n1: yes\n2: no");	//TODO: method of restarting the game
-				mang.exit = video.getChar() - '1';
-				if (mang.exit != 0)
-					video.addHangman(new FunctionalHangman());
-			}
 			try {
 				long wait = (long) (nextUpdate - System.nanoTime()) / 1000000;
-				Thread.sleep(wait < 0 ? 0 : wait);  }
-			catch (Exception e) {
+				Thread.sleep(wait < 0 ? 0 : wait);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+		try {
+			Thread.sleep(2500L);
+		}
+		catch (Exception e)	{
+			e.printStackTrace();
 		}
 		screen.dispose();
 	}
@@ -91,7 +93,6 @@ public class FunctionalHangman {
 		_limbsCount = 0;
 	}
 	public String guesslineGen(int len)	{ // I'm not a loop! You're a loop!
-//		System.out.println("ye");
 		return len > 1 ? "_" + guesslineGen(len - 1) : "_";
 	}
 	protected void _playGame(Character _c)	{
@@ -102,8 +103,6 @@ public class FunctionalHangman {
 			System.out.println("You've already guessed " + c);
 			return;
 		}
-//		System.out.println(c);
-//		System.out.println(_word);
 		if (_word.contains(c)) {
 			System.out.println(c + " in " + _word);
 			StringBuffer n = new StringBuffer(_guesses);
@@ -114,15 +113,15 @@ public class FunctionalHangman {
 		}
 		else
 			addlimb();
-		switch (checkVictory()) {
+		switch (checkVictory()) {	// TODO: handle changes of gamestate
 			case 1 -> {
 				System.out.println("Oops, out of guesses.");
 				System.out.println("Your word was: " + _word);
-				exit = 0;
+				exit = 2;
 			}
 			case 2 -> {
 				System.out.println("Congratulations! You win!");
-				exit = 0;
+				exit = 2;
 			}
 		}
 	}
@@ -156,7 +155,7 @@ public class FunctionalHangman {
 // write code that interacts with the web in a way that's braindead easy and gets
 // me the desired end result;
 	private String _genWord()	{
-		return "stubs".toUpperCase();
+		return "stub".toUpperCase();
 //		ChromeOptions opt = new ChromeOptions();
 //		opt.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
 //		WebDriver driver = new ChromeDriver(opt);

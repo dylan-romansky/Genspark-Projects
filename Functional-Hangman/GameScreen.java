@@ -20,7 +20,7 @@ public class GameScreen extends JPanel implements ActionListener   {
     public JTextField name;
     public JFormattedTextField text;
     private String player;
-    private int score;
+    private int score = 0;
     private Scores scoreboard = new Scores();
     private final String[] artPaths = {"resources/hed.png", "resources/bod.png", "resources/Legarm.png", "resources/legaRm.png"};
 
@@ -62,6 +62,7 @@ public class GameScreen extends JPanel implements ActionListener   {
         switch (state) {
             case 0 -> drawNameEntry(g2);
             case 1 -> drawGame(g2);
+            case 2 -> drawEndGame(g2);
         }
     }
     public void drawNameEntry(Graphics2D g2)    {
@@ -85,8 +86,12 @@ public class GameScreen extends JPanel implements ActionListener   {
             case 1:
                 g2.drawImage(_dude[0], width/2-42, height/4-50, 100, 100, null);
         }
-        g2.drawString(mang._getGuesses(), 20, height-27);
+        g2.drawString(mang._getGuesses(), 20, height-37);
         g2.drawString("Guess box:", 50, height-135);
+    }
+    public void drawEndGame(Graphics2D g2)   {
+        System.out.println("y");
+        g2.drawString("Thanks for playing", 2, 260);
     }
     public Character getChar() {
         System.out.println(text.getValue());
@@ -116,7 +121,17 @@ public class GameScreen extends JPanel implements ActionListener   {
                 name.setVisible(false);
                 text.setVisible(true);
             }
+            case 2 ->   {
+                name.setVisible(false);
+                text.setVisible(false);
+            }
         }
+    }
+    public void endGame()   {
+        System.out.println("we here?");
+        mang.exit = 0;
+        setState(2);
+        scoreboard.writeHighScores();
     }
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
