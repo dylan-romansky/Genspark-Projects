@@ -17,7 +17,8 @@ public class GameScreen extends JPanel implements ActionListener   {
     private int width;
     private int height;
     private int state = 0;
-    public JFormattedTextField text, name;
+    public JTextField name;
+    public JFormattedTextField text;
     private String player;
     private int score;
     private Scores scoreboard = new Scores();
@@ -86,19 +87,22 @@ public class GameScreen extends JPanel implements ActionListener   {
         }
         System.out.println(mang._getGuesses());
         g2.drawString(mang._getGuesses(), 20, height-27);
+        g2.drawString("Guess box:", 50, height-135);
     }
     public Character getChar() {
         System.out.println(text.getValue());
-        return (Character) text.getValue();
+        Character c = text.getText().toCharArray()[0];
+        text.setText("");
+        return c;
     }
     public void setTextfield(JFormattedTextField t)  {
+        t.addActionListener(this::actionPerformed);
         add(t);
-        t.addActionListener(this);
         text = t;
     }
-    public void setNameField(JFormattedTextField t)  {
+    public void setNameField(JTextField t)  {
+        t.addActionListener(this::actionPerformed);
         add(t);
-        t.addActionListener(this);
         name = t;
     }
     public void setState(int state) {
@@ -119,7 +123,7 @@ public class GameScreen extends JPanel implements ActionListener   {
     public void actionPerformed(ActionEvent actionEvent) {
         switch (state) {
             case 0 -> setState(1);
-            case 1 -> mang._playGame(text.getText().toCharArray()[0]);
+            case 1 -> mang._playGame(getChar());
         }
     }
 }

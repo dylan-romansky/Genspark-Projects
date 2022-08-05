@@ -31,17 +31,17 @@ public class FunctionalHangman {
 		screen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GameScreen video = new GameScreen(width, height);
 		try	{
-			JFormattedTextField text, name;
+			JTextField name;
+			JFormattedTextField text;
 			text = new JFormattedTextField(new MaskFormatter("U"));
-			text.setFont(new Font("Times New Roman", Font.PLAIN, 60));
-			text.setBounds((width/2)-25, height - 175, 50, 60);
+			text.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+			text.setBounds((width/2) + 80, height - 180, 40, 52);
 			text.setColumns(1);
 			text.setEditable(true);
 			text.setVisible(false);
-			name = new JFormattedTextField(new MaskFormatter("????????????"));
+			name = new JTextField(12);
 			name.setFont(new Font("Times New Roman", Font.PLAIN, 60));
 			name.setBounds(width/2-175, 310, 330, 70);
-			name.setColumns(12);
 			name.setEditable(true);
 			name.setVisible(true);
 			screen.add(name);
