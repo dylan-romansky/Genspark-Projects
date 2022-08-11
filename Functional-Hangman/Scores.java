@@ -66,7 +66,7 @@ public class Scores {
     }
     public void add(Score score){
         scores.add(score);
-        scores = scores.stream().sorted((a, b) -> b.getScore() - a.getScore()).collect(Collectors.toCollection(ArrayList::new));
+        scores = scores.stream().sorted((a, b) -> b.getScore() - a.getScore()).sorted((a, b) -> b.getName().length() - a.getName().length()).collect(Collectors.toCollection(ArrayList::new));
         while (scores.size() > 5)
             scores.remove(5);
     }

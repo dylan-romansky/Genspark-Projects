@@ -180,12 +180,17 @@ public class UnitTester {
             fail("Unhandled exception");
         }
         System.out.println("\nWriting empty scoreboard");
-        scores.writeHighScores();
+        scores.writeHighScores(scoreFile);
         assert (scoreFile.exists());
         System.out.println("Reading empty scoreboard");
         scores = new Scores(scoreFile);
-        scores.readHighScores();
+        scores.readHighScores(scoreFile);
         for (String score : scores.getScores())
             assert score.compareTo("") == 0;
+        System.out.println("Adding player with a score of 0");
+        scores.add("dave", 0);
+        String res = scores.getScores()[0];
+        System.out.println(res);
+        assert scores.getScores()[0].compareTo("dave: 0") == 0;
     }
 }
