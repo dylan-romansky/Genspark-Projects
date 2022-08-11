@@ -95,7 +95,6 @@ public class GameScreen extends JPanel implements ActionListener   {
         g2.drawString("Guess box:", 50, height-135);
     }
     public void drawEndGame(Graphics2D g2)   {
-        System.out.println("y");
         g2.drawString("Thanks for playing", 2, 260);
     }
     public Character getChar() {
@@ -132,17 +131,23 @@ public class GameScreen extends JPanel implements ActionListener   {
             }
         }
     }
+    public void addPoints(int points)   {
+        score += points;
+    }
     public void endGame()   {
         System.out.println("we here?");
         mang.exit = 0;
         setState(2);
+        scoreboard.add(name.getText(), score);
         scoreboard.writeHighScores();
     }
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         switch (state) {
             case 0 -> setState(1);
-            case 1 -> mang._playGame(getChar());
+            case 1 -> {
+                addPoints(mang._playGame(getChar()));
+            }
         }
     }
 }

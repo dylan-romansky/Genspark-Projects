@@ -20,8 +20,6 @@ import javax.json.*;
 public class FunctionalHangman {
 	public int exit = 1;
 	private final String _word;
-	private final String _dude = "O/|\\/\\";
-	private final String[] _hanger;
 	private String _guesses;
 	private int _limbsCount;
 
@@ -85,23 +83,20 @@ public class FunctionalHangman {
 	}
 	public FunctionalHangman()	{
 		_word = _genWord();
-		_hanger = new String[3];
-		_hanger[0] = "+-+";
-		_hanger[1] = "|";
-		_hanger[2] = "===";
 		_guesses = guesslineGen(_word.length());
 		_limbsCount = 0;
 	}
 	public String guesslineGen(int len)	{ // I'm not a loop! You're a loop!
 		return len > 1 ? "_" + guesslineGen(len - 1) : "_";
 	}
-	protected void _playGame(Character _c)	{
+	protected int _playGame(Character _c)	{
 		String c = _c.toString();
+		int points = 0;
 		if (_c == '\0')
-			return;
+			return 0;
 		if (_guesses.contains(c))	{
 			System.out.println("You've already guessed " + c);
-			return;
+			return 0;
 		}
 		if (_word.contains(c)) {
 			System.out.println(c + " in " + _word);
@@ -110,10 +105,11 @@ public class FunctionalHangman {
 			match.results().map(MatchResult::start).forEach(a -> n.setCharAt(a, _c));
 			System.out.println(n);
 			_guesses = n.toString();
+			points = 5;
 		}
 		else
 			addlimb();
-		switch (checkVictory()) {	// TODO: handle changes of gamestate
+		switch (checkVictory()) {
 			case 1 -> {
 				System.out.println("Oops, out of guesses.");
 				System.out.println("Your word was: " + _word);
@@ -124,6 +120,7 @@ public class FunctionalHangman {
 				exit = 2;
 			}
 		}
+		return points;
 	}
 	protected int checkVictory() {
 		if (0 >_limbsCount || _limbsCount >= 6)
