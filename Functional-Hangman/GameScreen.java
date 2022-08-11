@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.stream.IntStream;
 
 public class GameScreen extends JPanel implements ActionListener   {
     private BufferedImage _hanger;
@@ -35,12 +36,16 @@ public class GameScreen extends JPanel implements ActionListener   {
         try {
             _hanger = ImageIO.read(new File("resources/hanger.png"));
             _background = ImageIO.read(new File("resources/bg.png"));
-            //normally I would use a for loop but under the conditions of this challenge I can only use Stream methods to loop
-            //I'll check if this is possible to do with a Stream after I get a working prototype
-            _dude[0] = ImageIO.read(new File(artPaths[0]));
-            _dude[1] = ImageIO.read(new File(artPaths[1]));
-            _dude[2] = ImageIO.read(new File(artPaths[2]));
-            _dude[3] = ImageIO.read(new File(artPaths[3]));
+            //normally I would use a plain for loop but under the conditions of this challenge I can only use Stream methods to loop
+            IntStream.range(0, 4).forEach(i -> {
+                try {
+                    _dude[i] = ImageIO.read(new File(artPaths[i]));
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                    System.exit(1);
+                }
+            });
         }
         catch (Exception e) {
             e.printStackTrace();
