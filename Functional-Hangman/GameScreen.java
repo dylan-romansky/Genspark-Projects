@@ -65,13 +65,9 @@ public class GameScreen extends JPanel implements ActionListener   {
         g2.setFont(new Font("Times New Roman", Font.BOLD, 60));
         g2.drawImage(_background, 0, 0, width, height, null);
         switch (state) {
-            case 0:
-                drawNameEntry(g2);
-                break;
-            case 1:
-                drawGame(g2);
-            case 2:
-                drawEndGame(g2);
+            case 0 -> drawNameEntry(g2);
+            case 1 -> drawGame(g2);
+            case 2 -> drawEndGame(g2);
         }
     }
     public void drawNameEntry(Graphics2D g2)    {
