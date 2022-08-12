@@ -152,14 +152,14 @@ public class FunctionalHangman {
 // write code that interacts with the web in a way that's braindead easy and gets
 // me the desired end result;
 	private String _genWord()	{
-		return "stub".toUpperCase();
-//		ChromeOptions opt = new ChromeOptions();
-//		opt.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
-//		WebDriver driver = new ChromeDriver(opt);
-//		driver.get("https://randomwordgenerator.com/");
-//		String ret = driver.findElement(By.xpath("//*[@id='result']/li")).getText();
-//		driver.close();
-//		System.out.println(ret);
-//		return ret.toUpperCase();
+//		return "stub".toUpperCase();
+		ChromeOptions opt = new ChromeOptions();
+		opt.addArguments("--headless", "--disable-gpu", "--window-size=1920,1200","--ignore-certificate-errors","--disable-extensions","--no-sandbox","--disable-dev-shm-usage");
+		WebDriver driver = new ChromeDriver(opt);
+		driver.get("https://randomwordgenerator.com/");
+		String ret = driver.findElement(By.xpath("//*[@id='result']/li")).getText();
+		driver.close();
+		System.out.println(ret);
+		return ret.toUpperCase();
 	}
 }
